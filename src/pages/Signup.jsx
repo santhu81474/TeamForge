@@ -6,62 +6,82 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [skills, setSkills] = useState('');
   const [error, setError] = useState('');
   const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    const success = await signup(name, email, password);
-    if (success) {
+    try {
+      const skillsArray = skills.split(',').map(s => s.trim()).filter(s => s);
+      await signup(name, email, password, skillsArray);
       navigate('/dashboard');
-    } else {
-      setError('Failed to create account');
+    } catch (err) {
+      console.error("Signup Error:", err);
+      // Give the exact network trace instead of the fallback string so we can diagnose
+      setError(err.response?.data?.message || err.message || 'Duplicate registration or invalid network configuration.');
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '4rem auto' }} className="card">
-      <h2 className="page-title text-center" style={{ marginBottom: '1rem' }}>Create Account</h2>
-      {error && <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label">Full Name</label>
+    <div className="card" style={{ maxWidth: '400px', margin: '60px auto', padding: '32px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '300', marginBottom: 0 }}>Establish Network Presence</h2>
+      </div>
+
+      {error && <div style={{ backgroundColor: 'rgba(248, 81, 73, 0.1)', border: '1px solid rgba(248, 81, 73, 0.4)', color: '#ff7b72', padding: '12px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px' }}>{error}</div>}
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div>
+          <label className="block font-medium mb-2" style={{ color: 'var(--text-main)', fontSize: '14px' }}>Authorized Alias</label>
           <input 
             type="text" 
-            className="form-input" 
+            className="form-input w-full" 
             value={name} 
-            onChange={e => setName(e.target.value)} 
+            onChange={(e) => setName(e.target.value)} 
             required 
+            style={{ padding: '8px 12px' }}
           />
         </div>
-        <div className="form-group">
-          <label className="form-label">Email</label>
+        <div>
+          <label className="block font-medium mb-2" style={{ color: 'var(--text-main)', fontSize: '14px' }}>Email address</label>
           <input 
             type="email" 
-            className="form-input" 
+            className="form-input w-full" 
             value={email} 
-            onChange={e => setEmail(e.target.value)} 
+            onChange={(e) => setEmail(e.target.value)} 
             required 
+            style={{ padding: '8px 12px' }}
           />
         </div>
-        <div className="form-group">
-          <label className="form-label">Password</label>
+        <div>
+          <label className="block font-medium mb-2" style={{ color: 'var(--text-main)', fontSize: '14px' }}>Encryption Hash (Password)</label>
           <input 
             type="password" 
-            className="form-input" 
+            className="form-input w-full" 
             value={password} 
-            onChange={e => setPassword(e.target.value)} 
+            onChange={(e) => setPassword(e.target.value)} 
             required 
+            style={{ padding: '8px 12px' }}
           />
         </div>
-        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-          Sign Up
-        </button>
+        <div>
+          <label className="block font-medium mb-2" style={{ color: 'var(--text-main)', fontSize: '14px' }}>Compute Arrays (CSV Skills)</label>
+          <input 
+            type="text" 
+            className="form-input w-full" 
+            placeholder="e.g. React, Node.js, Graph Theory"
+            value={skills} 
+            onChange={(e) => setSkills(e.target.value)} 
+            style={{ padding: '8px 12px' }}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary mt-2" style={{ width: '100%', padding: '10px' }}>Deploy Identity to Server</button>
       </form>
-      <div className="text-center" style={{ marginTop: '1.5rem', color: 'var(--text-muted)' }}>
-        Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 500 }}>Login</Link>
+
+      <div style={{ marginTop: '24px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', textAlign: 'center', fontSize: '14px', color: 'var(--text-muted)' }}>
+        Topology already active? <Link to="/login" style={{ color: 'var(--link-color)' }}>Execute authentication loop.</Link>
       </div>
     </div>
   );

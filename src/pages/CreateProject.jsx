@@ -1,85 +1,86 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createProject } from '../services/api';
 
 const CreateProject = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [skills, setSkills] = useState('');
+  const [skillsConfig, setSkillsConfig] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
-
+    
+    // Formatting CSV inputs uniformly for DB
+    const requiredSkills = skillsConfig.split(',').map(s => s.trim()).filter(s => s);
+    
     try {
-      // Mock API call to create project
-      // await api.post('/projects', { title, description, skills: skills.split(',').map(s => s.trim()) });
-      setTimeout(() => {
-        setLoading(false);
-        alert('Project created successfully!');
-        navigate('/dashboard');
-      }, 800);
-    } catch (err) {
+      await createProject({ title, description, requiredSkills });
+      alert('Production successfully committed to MongoDB collection!');
+      navigate('/dashboard');
+    } catch (error) {
+      alert(`Server Deploy Failed: ${error.response?.data?.message || error.message}`);
+    } finally {
       setLoading(false);
-      setError('Failed to create project');
     }
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="page-title" style={{ marginBottom: 0 }}>Create a Project</h1>
-      </div>
+    <div className="card" style={{ maxWidth: '600px', margin: '40px auto', padding: '32px' }}>
+      <h1 className="page-title" style={{ marginBottom: '24px' }}>Draft Network Project</h1>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        
+        <div>
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '8px' }}>Project Key Identifier (Title)</label>
+          <input 
+            type="text" 
+            className="form-input w-full"
+            placeholder="e.g. Next.js Enterprise Node Controller"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className="card">
-        {error && <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Project Title</label>
-            <input 
-              type="text" 
-              className="form-input" 
-              value={title} 
-              onChange={e => setTitle(e.target.value)} 
-              placeholder="e.g. Next.js Landing Page" 
-              required 
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Description</label>
-            <textarea 
-              className="form-input" 
-              value={description} 
-              onChange={e => setDescription(e.target.value)} 
-              placeholder="Describe what the project is about and what you are building..." 
-              rows="5"
-              required 
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Required Skills (Comma separated)</label>
-            <input 
-              type="text" 
-              className="form-input" 
-              value={skills} 
-              onChange={e => setSkills(e.target.value)} 
-              placeholder="React, Node.js, Graphic Design" 
-              required 
-            />
-          </div>
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Project'}
-            </button>
-            <button type="button" className="btn btn-outline" onClick={() => navigate('/dashboard')} disabled={loading}>
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+        <div>
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '8px' }}>Extensive Documentation (Description)</label>
+          <textarea 
+            className="form-input w-full"
+            style={{ minHeight: '120px', resize: 'vertical' }}
+            placeholder="Deploy the scope, runtime timelines, and discrete goals..."
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '8px' }}>Target Alignments (Skills - CSV format)</label>
+          <input 
+            type="text" 
+            className="form-input w-full"
+            placeholder="React, Node.js, Graph Theory"
+            value={skillsConfig}
+            onChange={e => setSkillsConfig(e.target.value)}
+            required
+          />
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: 'text-bottom' }}><path fillRule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+            This array will be mathematically calculated via Intersection logic against users trying to accept requirements.
+          </p>
+        </div>
+
+        <button 
+          type="submit" 
+          className="btn btn-primary mt-4" 
+          disabled={loading}
+          style={{ padding: '12px 24px', fontSize: '16px', marginTop: '10px' }}
+        >
+          {loading ? 'Transmitting to Server...' : 'Commit Source & Publish Payload'}
+        </button>
+      </form>
     </div>
   );
 };
