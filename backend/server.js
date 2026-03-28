@@ -11,6 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 // Basic Route for testing
+app.get('/', (req, res) => {
+  res.send('Backend is running 🚀');
+});
 app.get('/api/health', (req, res) => res.json({ message: 'Server is running normally' }));
 
 // Route Mappings
