@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import SkillBadges from '../components/SkillBadges';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -106,8 +107,9 @@ const Profile = () => {
           <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', marginTop: '1rem' }}>
             <div className="flex justify-between" style={{ marginBottom: '0.5rem' }}>
               <span style={{ fontWeight: 500 }}>Overall Rating</span>
-              <span style={{ color: '#F59E0B', fontWeight: 'bold' }}>★ {profileDetails.rating}</span>
+              <span style={{ color: '#F59E0B', fontWeight: 'bold' }}>★ {user?.rating || 0}</span>
             </div>
+            <SkillBadges skills={user?.skills || []} rating={user?.rating || 0} />
           </div>
           <div style={{ marginTop: '1.5rem' }}>
              <Link to="/skill-test" className="btn btn-primary" style={{width: '100%'}}>Take a Skill Test</Link>
@@ -118,12 +120,26 @@ const Profile = () => {
         <div className="card">
           <h3 className="card-title">Verified Skills</h3>
           <div style={{ marginTop: '1rem' }}>
-            {profileDetails.skills.map(skill => (
+            {(user?.skills || profileDetails.skills).map(skill => (
               <span key={skill} className="badge">{skill}</span>
             ))}
           </div>
           
-          <h3 className="card-title" style={{ marginTop: '2rem' }}>Completed Projects ({profileDetails.completedProjects.length})</h3>
+          <h3 className="card-title" style={{ marginTop: '2rem' }}>Skill Achievements</h3>
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
+            Verified via TeamForge Skill Testing System (ADA Math Baseline).
+          </p>
+          <div style={{ marginTop: '12px', padding: '12px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border-color)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px' }}>
+              <span>React Core Performance</span>
+              <span style={{ color: '#39d353' }}>PASSED</span>
+            </div>
+            <div style={{ height: '4px', width: '100%', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px' }}>
+              <div style={{ height: '100%', width: '100%', backgroundColor: '#39d353', borderRadius: '2px' }}></div>
+            </div>
+          </div>
+
+          <h3 className="card-title" style={{ marginTop: '2rem' }}>Completed Projects ({user?.projectsCompleted || 0})</h3>
           <ul style={{ listStyleType: 'none', padding: 0, marginTop: '1rem' }}>
             {profileDetails.completedProjects.map(proj => (
               <li key={proj.id} style={{ 

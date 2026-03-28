@@ -19,8 +19,14 @@ const Signup = () => {
       navigate('/dashboard');
     } catch (err) {
       console.error("Signup Error:", err);
-      // Give the exact network trace instead of the fallback string so we can diagnose
-      setError(err.response?.data?.message || err.message || 'Duplicate registration or invalid network configuration.');
+      const status = err.response?.status;
+      if (status === 400) {
+        setError(err.response?.data?.message || 'Invalid details or user already exists.');
+      } else if (status === 500) {
+        setError('Server error during signup. Please try again later.');
+      } else {
+        setError(err.response?.data?.message || err.message || 'Unexpected error during signup.');
+      }
     }
   };
 

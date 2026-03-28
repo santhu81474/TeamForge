@@ -32,6 +32,9 @@ const register = async (req, res, next) => {
         _id: user.id, 
         name: user.name, 
         email: user.email, 
+        skills: user.skills,
+        githubUrl: user.githubUrl,
+        linkedinUrl: user.linkedinUrl,
         token: generateToken(user._id)
       });
     } else {
@@ -52,6 +55,9 @@ const login = async (req, res, next) => {
         _id: user.id, 
         name: user.name, 
         email: user.email, 
+        skills: user.skills,
+        githubUrl: user.githubUrl,
+        linkedinUrl: user.linkedinUrl,
         token: generateToken(user._id)
       });
     } else {

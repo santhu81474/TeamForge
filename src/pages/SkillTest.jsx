@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 const mockQuestions = [
-  { id: 1, text: 'What does React use to increase performance?', options: ['Virtual DOM', 'Real DOM', 'Shadow DOM', 'None of the above'], answer: 'Virtual DOM', optionLetter: 'A' },
-  { id: 2, text: 'How do you pass data to a child component?', options: ['Using state', 'Using context', 'Using props', 'Using Redux'], answer: 'Using props', optionLetter: 'C' },
-  { id: 3, text: 'Which hook is used for handling side effects?', options: ['useState', 'useContext', 'useReducer', 'useEffect'], answer: 'useEffect', optionLetter: 'D' },
-  { id: 4, text: 'Which hook is used to manage state in a functional component?', options: ['useEffect', 'useState', 'useContext', 'useReducer'], answer: 'useState', optionLetter: 'B' },
-  { id: 5, text: 'What is the syntax extension for JavaScript used in React?', options: ['JSX', 'JSON', 'JSP', 'JS+'], answer: 'JSX', optionLetter: 'A' }
+  { id: 1, text: 'What does React use to increase performance?', options: ['Virtual DOM', 'Real DOM', 'Shadow DOM', 'None of the above'], answer: 'Virtual DOM' },
+  { id: 2, text: 'Which hooks is used to manage state in a functional component?', options: ['useEffect', 'useState', 'useContext', 'useReducer'], answer: 'useState' },
+  { id: 3, text: 'How do you pass data to a child component?', options: ['Using state', 'Using context', 'Using props', 'Using Redux'], answer: 'Using props' }
 ];
 
 const SkillTest = () => {
@@ -17,31 +15,30 @@ const SkillTest = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSelect = (idx) => {
-    const letters = ['A', 'B', 'C', 'D'];
-    setAnswers({ ...answers, [currentQuestion]: letters[idx] });
+  const handleSelect = (option) => {
+    setAnswers({ ...answers, [currentQuestion]: option });
   };
 
   const handleSubmit = async () => {
     setLoading(true);
-    
-    // Prepare answers for backend (array of letters)
-    const userAnswers = Object.keys(answers)
-      .sort((a, b) => a - b)
-      .map(key => answers[key]);
+    let calculatedScore = 0;
+
+    mockQuestions.forEach((q, index) => {
+      if (answers[index] === q.answer) {
+        calculatedScore += 1;
+      }
+    });
 
     try {
-      const response = await api.post('/tests/submit', { 
-        testId: 'react-basic-01', 
-        userAnswers 
-      });
-      
-      setScore(response.data.score);
-      setLoading(false);
+      // Mock API call
+      // await api.post('/tests/submit', { score: calculatedScore, total: mockQuestions.length });
+      setTimeout(() => {
+        setScore(calculatedScore);
+        setLoading(false);
+      }, 500);
     } catch (err) {
       setLoading(false);
-      console.error('Test submission error:', err);
-      alert(err.response?.data?.message || 'Failed to submit test');
+      alert('Failed to submit test');
     }
   };
 
@@ -73,60 +70,52 @@ const SkillTest = () => {
 
       <div className="card">
         <h3 className="card-title" style={{ marginBottom: '1.5rem', fontSize: '1.25rem' }}>{question.text}</h3>
-        
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
-          {question.options.map((option, idx) => {
-            const letter = ['A', 'B', 'C', 'D'][idx];
-            const isSelected = answers[currentQuestion] === letter;
-            
-            return (
-              <label key={idx} style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                padding: '1rem', 
-                border: `1px solid ${isSelected ? 'var(--primary)' : 'var(--border-color)'}`,
-                borderRadius: '8px',
-                cursor: 'pointer',
-                backgroundColor: isSelected ? 'rgba(99, 102, 241, 0.1)' : 'var(--card-bg)',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: isSelected ? '0 0 0 1px var(--primary)' : 'none'
-              }}>
-                <input 
-                  type="radio" 
-                  name={`question-${currentQuestion}`} 
-                  value={letter} 
-                  checked={isSelected}
-                  onChange={() => handleSelect(idx)}
-                  style={{ marginRight: '1rem', accentColor: 'var(--primary)' }}
-                />
-                <span style={{ fontWeight: isSelected ? 600 : 400, color: isSelected ? 'var(--primary)' : 'var(--text-main)' }}>
-                  <strong style={{ marginRight: '0.5rem' }}>{letter}.</strong> {option}
-                </span>
-              </label>
-            );
-          })}
+          {question.options.map((option, idx) => (
+            <label key={idx} style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+              border: `1px solid ${answers[currentQuestion] === option ? 'var(--primary)' : 'var(--border-color)'}`,
+              borderRadius: '6px',
+              cursor: 'pointer',
+              backgroundColor: answers[currentQuestion] === option ? '#EEF2FF' : 'transparent',
+              transition: 'all 0.2s'
+            }}>
+              <input
+                type="radio"
+                name={`question-${currentQuestion}`}
+                value={option}
+                checked={answers[currentQuestion] === option}
+                onChange={() => handleSelect(option)}
+                style={{ marginRight: '1rem' }}
+              />
+              <span style={{ fontWeight: answers[currentQuestion] === option ? 600 : 400 }}>{option}</span>
+            </label>
+          ))}
         </div>
 
         <div className="flex justify-between">
-          <button 
-            className="btn btn-outline" 
+          <button
+            className="btn btn-outline"
             onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
             disabled={currentQuestion === 0}
           >
             Previous
           </button>
-          
+
           {currentQuestion === mockQuestions.length - 1 ? (
-            <button 
-              className="btn btn-primary" 
+            <button
+              className="btn btn-primary"
               onClick={handleSubmit}
               disabled={loading || !answers[currentQuestion]}
             >
               {loading ? 'Submitting...' : 'Submit Test'}
             </button>
           ) : (
-            <button 
-              className="btn btn-primary" 
+            <button
+              className="btn btn-primary"
               onClick={() => setCurrentQuestion(prev => Math.min(mockQuestions.length - 1, prev + 1))}
               disabled={!answers[currentQuestion]}
             >

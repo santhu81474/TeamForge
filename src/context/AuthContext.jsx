@@ -8,18 +8,44 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
+
+  const persistUser = (data) => {
+    if (!data) {
+      setUser(null);
+      localStorage.removeItem('user');
+      return;
+    }
+    const normalized = { ...data, id: data._id || data.id };
+    setUser(normalized);
+    localStorage.setItem('user', JSON.stringify(normalized));
+  };
 
   // Authenticate across session via server verification
   useEffect(() => {
     const initAuth = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) {
+        setToken(storedToken);
+
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          try {
+            persistUser(JSON.parse(storedUser));
+          } catch {
+            localStorage.removeItem('user');
+          }
+        }
+
         try {
           const { data } = await getProfile();
-          setUser({ ...data, id: data._id }); // Map Mongo _id universally
+          persistUser(data);
         } catch (error) {
           console.error("Token invalid or expired", error);
           localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          setToken(null);
+          setUser(null);
         }
       }
       setLoading(false);
@@ -30,22 +56,26 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const { data } = await loginUser({ email, password });
     localStorage.setItem('token', data.token);
-    setUser({ ...data, id: data._id });
+    setToken(data.token);
+    persistUser(data);
   };
 
   const signup = async (name, email, password, skillsArray) => {
     const { data } = await registerUser({ name, email, password, skills: skillsArray });
     localStorage.setItem('token', data.token);
-    setUser({ ...data, id: data._id });
+    setToken(data.token);
+    persistUser(data);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setToken(null);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, login, signup, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

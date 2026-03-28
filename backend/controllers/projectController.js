@@ -18,8 +18,16 @@ const createProject = async (req, res, next) => {
 
 const getProjects = async (req, res, next) => {
   try {
-    const projects = await Project.find({}).populate('ownerId', 'name email');
-    res.json(projects);
+    const projects = await Project.find({})
+      .populate({
+        path: 'ownerId',
+        select: 'name email isDemo',
+        match: { isDemo: { $ne: true }, email: { $not: /demo/i } }
+      });
+    
+    // Filter out projects where the owner was excluded by the populate match
+    const realProjects = projects.filter(p => p.ownerId);
+    res.json(realProjects);
   } catch (error) {
     next(error);
   }

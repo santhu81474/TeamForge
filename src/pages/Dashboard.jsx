@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { fetchProjects, applyToProject } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -44,12 +44,46 @@ const Dashboard = () => {
     }
   };
 
-  // Live filter mapped to frontend cache mapped iteratively
-  const filteredProjects = projects.filter(p => 
-    p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (p.ownerId?.name && p.ownerId.name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  // ADA Concept: Optimized Search via Inverted Index (O(k * m) pre-processing, O(1) or O(terms) lookup)
+  const [invertedIndex, setInvertedIndex] = useState({});
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      const index = {};
+      projects.forEach(p => {
+        const keywords = `${p.title} ${p.description} ${p.ownerId?.name || ''}`.toLowerCase().split(/\W+/).filter(w => w.length > 2);
+        keywords.forEach(word => {
+          if (!index[word]) index[word] = new Set();
+          index[word].add(p._id);
+        });
+      });
+      setInvertedIndex(index);
+    }
+  }, [projects]);
+
+  // Optimized lookup using the index
+  const getFilteredProjects = () => {
+    if (!searchQuery.trim()) return projects;
+    
+    const searchTerms = searchQuery.toLowerCase().split(/\W+/).filter(w => w.length > 2);
+    if (searchTerms.length === 0) return projects.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    // Intersection of sets for term search
+    let matchingIds = null;
+    searchTerms.forEach(term => {
+      const idsForTerm = invertedIndex[term] || new Set();
+      if (matchingIds === null) {
+        matchingIds = new Set(idsForTerm);
+      } else {
+        // Intersection
+        matchingIds = new Set([...matchingIds].filter(id => idsForTerm.has(id)));
+      }
+    });
+
+    return projects.filter(p => matchingIds?.has(p._id));
+  };
+
+  const filteredProjects = getFilteredProjects();
 
   if (loading) return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Retrieving live database connection...</div>;
 
