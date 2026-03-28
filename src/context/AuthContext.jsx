@@ -57,7 +57,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
+      console.log('LOGIN: sending', { email, password });
       const res = await loginUser({ email, password });
+      console.log('LOGIN: response', res);
       const { token, user: userData } = res.data;
       localStorage.setItem('token', token);
       setToken(token);
@@ -66,6 +68,7 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (err) {
       setLoading(false);
+      console.error('LOGIN: error', err, err?.response);
       throw err;
     }
   };
