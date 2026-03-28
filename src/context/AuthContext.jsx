@@ -53,11 +53,21 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
+  // Login function: POST to /api/auth/login, store JWT, handle errors
   const login = async (email, password) => {
-    const { data } = await loginUser({ email, password });
-    localStorage.setItem('token', data.token);
-    setToken(data.token);
-    persistUser(data);
+    setLoading(true);
+    try {
+      const res = await loginUser({ email, password });
+      const { token, user: userData } = res.data;
+      localStorage.setItem('token', token);
+      setToken(token);
+      persistUser(userData);
+      setLoading(false);
+      return true;
+    } catch (err) {
+      setLoading(false);
+      throw err;
+    }
   };
 
   const signup = async (name, email, password, skillsArray, githubUrl, linkedinUrl) => {
@@ -67,11 +77,13 @@ export const AuthProvider = ({ children }) => {
     persistUser(data);
   };
 
+  // Logout: remove token, user, and redirect
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setToken(null);
     setUser(null);
+    window.location.href = '/login';
   };
 
   return (

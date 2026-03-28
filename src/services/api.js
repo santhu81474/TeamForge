@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:5000/api', // Maps directly via pure IPv4 to bypass Windows DNS localhost resolution conflicts
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://teamforge-1-1v25.onrender.com/api',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -17,6 +17,22 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+// Response interceptor to handle 401 errors globally
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Remove token and redirect to login if unauthorized
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
 );
 
 // Auth
