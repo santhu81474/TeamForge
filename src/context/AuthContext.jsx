@@ -10,13 +10,16 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
 
+  // Always persist only the user object, not the whole response
   const persistUser = (data) => {
     if (!data) {
       setUser(null);
       localStorage.removeItem('user');
       return;
     }
-    const normalized = { ...data, id: data._id || data.id };
+    // If data has a 'user' field, use it; else use data directly
+    const userObj = data.user ? data.user : data;
+    const normalized = { ...userObj, id: userObj._id || userObj.id };
     setUser(normalized);
     localStorage.setItem('user', JSON.stringify(normalized));
   };
@@ -57,19 +60,17 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      console.log('LOGIN: sending', { email, password });
       const res = await loginUser({ email, password });
-      console.log('LOGIN: response', res);
-      const { token, user: userData } = res.data;
+      // Accept both {token, user} and {token, ...userFields}
+      const { token, user, ...rest } = res.data;
       localStorage.setItem('token', token);
       setToken(token);
-      persistUser(userData);
-      console.log('AUTHCTX: userData after login', userData);
+      // Prefer user if present, else use rest (for legacy backend)
+      persistUser(user ? user : rest);
       setLoading(false);
       return true;
     } catch (err) {
       setLoading(false);
-      console.error('LOGIN: error', err, err?.response);
       throw err;
     }
   };
