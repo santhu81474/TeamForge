@@ -8,7 +8,7 @@ const generateToken = (id) => {
 
 const register = async (req, res, next) => {
   try {
-    const { name, email, password, skills } = req.body;
+    const { name, email, password, skills, githubUrl, linkedinUrl } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Please add all required fields' });
     }
@@ -21,10 +21,12 @@ const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-      name, 
-      email, 
-      password: hashedPassword, 
-      skills: skills || []
+      name,
+      email,
+      password: hashedPassword,
+      skills: skills || [],
+      githubUrl: githubUrl || '',
+      linkedinUrl: linkedinUrl || ''
     });
 
     if (user) {

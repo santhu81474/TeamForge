@@ -3,12 +3,30 @@ const { calculateSkillMatch } = require('../utils/mathUtils');
 
 const createProject = async (req, res, next) => {
   try {
-    const { title, description, requiredSkills } = req.body;
+    const {
+      title,
+      description,
+      requiredSkills,
+      roleType,
+      seniority,
+      workMode,
+      duration,
+      openings,
+      compensation,
+      applicationDeadline
+    } = req.body;
     const project = await Project.create({
       title,
       description,
       requiredSkills: requiredSkills || [],
-      ownerId: req.user.id
+      ownerId: req.user.id,
+      roleType: roleType || '',
+      seniority: seniority || '',
+      workMode: workMode || '',
+      duration: duration || '',
+      openings: openings || 1,
+      compensation: compensation || '',
+      applicationDeadline: applicationDeadline || undefined
     });
     res.status(201).json(project);
   } catch (error) {

@@ -7,6 +7,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ totalProjects: 0, myApplications: 0, myOwned: 0 });
   
   // Handling Global Search System Queries
   const location = useLocation();
@@ -18,6 +19,13 @@ const Dashboard = () => {
       try {
         const { data } = await fetchProjects();
         setProjects(data);
+        const mine = (data || []).filter(p => p.applicants?.includes(user?.id));
+        const owned = (data || []).filter(p => p.ownerId?._id === user?.id);
+        setStats({
+          totalProjects: data?.length || 0,
+          myApplications: mine.length,
+          myOwned: owned.length
+        });
       } catch (error) {
         console.error("Error fetching live projects dataset:", error);
       } finally {
@@ -89,6 +97,63 @@ const Dashboard = () => {
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px', marginBottom: '20px' }}>
+        <div className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{
+            width: 32,
+            height: 32,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(88,166,255,0.12)',
+            color: '#58A6FF'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 2A1.75 1.75 0 000 3.75v8.5C0 13.216.784 14 1.75 14h12.5A1.75 1.75 0 0016 12.25v-8.5A1.75 1.75 0 0014.25 2H1.75zm0 1.5h12.5a.25.25 0 01.25.25v.56L8 7.5 1.5 4.31v-.56a.25.25 0 01.25-.25zm12.75 3.109L8.3 9.36a.75.75 0 01-.6 0L1.5 6.61v5.64a.25.25 0 00.25.25h12.5a.25.25 0 00.25-.25V6.61z"/></svg>
+          </span>
+          <div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Total Projects</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>{stats.totalProjects}</div>
+          </div>
+        </div>
+        <div className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{
+            width: 32,
+            height: 32,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(63,185,80,0.12)',
+            color: '#3FB950'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-6 6a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06L7 9.69l5.47-5.47a.75.75 0 011.06 0z"/></svg>
+          </span>
+          <div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>My Applications</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>{stats.myApplications}</div>
+          </div>
+        </div>
+        <div className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{
+            width: 32,
+            height: 32,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(242,204,96,0.12)',
+            color: '#F2CC60'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 2.75A.75.75 0 013.25 2h9.5a.75.75 0 01.75.75v8.5a.75.75 0 01-.75.75h-4.5l-1.72 2.293A.75.75 0 015.5 14.75V12h-2.25a.75.75 0 01-.75-.75v-8.5z"/></svg>
+          </span>
+          <div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Projects I Own</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>{stats.myOwned}</div>
+          </div>
+        </div>
+      </div>
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <h1 className="page-title" style={{ marginBottom: 0 }}>Project Network</h1>
         {searchQuery && (
@@ -119,7 +184,7 @@ const Dashboard = () => {
                   {project.description}
                 </p>
                 
-                <div style={{ marginBottom: '16px' }}>
+                <div style={{ marginBottom: '8px' }}>
                   <h4 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)', marginBottom: '8px' }}>Required Technical Alignments</h4>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                     {project.requiredSkills.map(skill => (
@@ -127,6 +192,40 @@ const Dashboard = () => {
                     ))}
                   </div>
                 </div>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '8px', fontSize: '11px', color: 'var(--text-muted)' }}>
+                  {project.roleType && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a2.5 2.5 0 00-1.985 4.028A3.501 3.501 0 004.5 8.5v.75a.75.75 0 01-1.5 0V8.5a5 5 0 019.986 0v.75a.75.75 0 01-1.5 0V8.5a3.501 3.501 0 00-1.515-2.972A2.5 2.5 0 008 1.5z"/></svg>
+                      {project.roleType}
+                    </span>
+                  )}
+                  {project.seniority && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.75A.75.75 0 013.75 2h8.5a.75.75 0 010 1.5h-8.5A.75.75 0 013 2.75zM3 5.75A.75.75 0 013.75 5h6.5a.75.75 0 010 1.5h-6.5A.75.75 0 013 5.75zM3 8.75A.75.75 0 013.75 8h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 013 8.75z"/></svg>
+                      {project.seniority}
+                    </span>
+                  )}
+                  {project.workMode && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 2A1.75 1.75 0 000 3.75v8.5C0 13.216.784 14 1.75 14h12.5A1.75 1.75 0 0016 12.25v-8.5A1.75 1.75 0 0014.25 2H1.75zm0 1.5h12.5a.25.25 0 01.25.25v8.5a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25z"/></svg>
+                      {project.workMode}
+                    </span>
+                  )}
+                  {project.duration && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.75a.75.75 0 01.75.75v4.19l2.22 2.22a.75.75 0 11-1.06 1.06L7.47 7.53A.75.75 0 017.25 7V2.5A.75.75 0 018 1.75z"/></svg>
+                      {project.duration}
+                    </span>
+                  )}
+                  {typeof project.openings === 'number' && project.openings > 0 && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M10.561 8.073a6.005 6.005 0 013.432 5.142.75.75 0 11-1.498.07 4.5 4.5 0 00-8.99 0 .75.75 0 11-1.498-.07 6.004 6.004 0 013.431-5.142 3.999 3.999 0 115.123 0zM10.5 5a2.5 2.5 0 10-5 0 2.5 2.5 0 005 0z"/></svg>
+                      {project.openings} opening{project.openings > 1 ? 's' : ''}
+                    </span>
+                  )}
+                </div>
+
               </div>
               
               <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

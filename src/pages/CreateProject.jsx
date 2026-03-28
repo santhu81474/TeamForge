@@ -6,6 +6,13 @@ const CreateProject = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [skillsConfig, setSkillsConfig] = useState('');
+  const [roleType, setRoleType] = useState('');
+  const [seniority, setSeniority] = useState('');
+  const [workMode, setWorkMode] = useState('Remote');
+  const [duration, setDuration] = useState('');
+  const [openings, setOpenings] = useState(1);
+  const [compensation, setCompensation] = useState('');
+  const [applicationDeadline, setApplicationDeadline] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -15,9 +22,20 @@ const CreateProject = () => {
     
     // Formatting CSV inputs uniformly for DB
     const requiredSkills = skillsConfig.split(',').map(s => s.trim()).filter(s => s);
-    
+
     try {
-      await createProject({ title, description, requiredSkills });
+      await createProject({
+        title,
+        description,
+        requiredSkills,
+        roleType,
+        seniority,
+        workMode,
+        duration,
+        openings,
+        compensation,
+        applicationDeadline: applicationDeadline || undefined
+      });
       alert('Production successfully committed to MongoDB collection!');
       navigate('/dashboard');
     } catch (error) {
@@ -28,10 +46,10 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="card" style={{ maxWidth: '600px', margin: '40px auto', padding: '32px' }}>
+    <div className="card" style={{ maxWidth: '980px', margin: '40px auto', padding: '32px' }}>
       <h1 className="page-title" style={{ marginBottom: '24px' }}>Draft Network Project</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.7fr) minmax(0, 1.1fr)', gap: '24px' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '8px' }}>Project Key Identifier (Title)</label>
           <input 
@@ -56,6 +74,96 @@ const CreateProject = () => {
           />
         </div>
 
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '12px' }}>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Role Type</label>
+            <select
+              className="form-input w-full"
+              value={roleType}
+              onChange={e => setRoleType(e.target.value)}
+            >
+              <option value="">Select a role type</option>
+              <option value="Internship">Internship</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Freelance">Freelance / Contract</option>
+              <option value="Open Source">Open Source</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Seniority</label>
+            <select
+              className="form-input w-full"
+              value={seniority}
+              onChange={e => setSeniority(e.target.value)}
+            >
+              <option value="">Any level</option>
+              <option value="Student">Student / Fresher</option>
+              <option value="Junior">Junior</option>
+              <option value="Mid">Mid-level</option>
+              <option value="Senior">Senior</option>
+              <option value="Lead">Lead</option>
+            </select>
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px' }}>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Work Mode</label>
+            <select
+              className="form-input w-full"
+              value={workMode}
+              onChange={e => setWorkMode(e.target.value)}
+            >
+              <option value="Remote">Remote</option>
+              <option value="Onsite">Onsite</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Duration</label>
+            <input
+              type="text"
+              className="form-input w-full"
+              placeholder="e.g. 3 months, 6 weeks"
+              value={duration}
+              onChange={e => setDuration(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Openings</label>
+            <input
+              type="number"
+              min="1"
+              className="form-input w-full"
+              value={openings}
+              onChange={e => setOpenings(Number(e.target.value) || 1)}
+            />
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '12px' }}>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Compensation</label>
+            <input
+              type="text"
+              className="form-input w-full"
+              placeholder="e.g. Stipend, Paid, Equity only"
+              value={compensation}
+              onChange={e => setCompensation(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '4px' }}>Application Deadline</label>
+            <input
+              type="date"
+              className="form-input w-full"
+              value={applicationDeadline}
+              onChange={e => setApplicationDeadline(e.target.value)}
+            />
+          </div>
+        </div>
+
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-main)', marginBottom: '8px' }}>Target Alignments (Skills - CSV format)</label>
           <input 
@@ -71,16 +179,56 @@ const CreateProject = () => {
             This array will be mathematically calculated via Intersection logic against users trying to accept requirements.
           </p>
         </div>
-
-        <button 
-          type="submit" 
-          className="btn btn-primary mt-4" 
+        <button
+          type="submit"
+          className="btn btn-primary mt-4"
           disabled={loading}
           style={{ padding: '12px 24px', fontSize: '16px', marginTop: '10px' }}
         >
           {loading ? 'Transmitting to Server...' : 'Commit Source & Publish Payload'}
         </button>
-      </form>
+        </form>
+
+        {/* Live preview card to make creation interactive */}
+        <div className="card" style={{ alignSelf: 'flex-start' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+            <h3 className="card-title" style={{ marginBottom: 0 }}>{title || 'Project title preview'}</h3>
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{applicationDeadline ? `Apply by ${new Date(applicationDeadline).toLocaleDateString()}` : 'No deadline set'}</span>
+          </div>
+          <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '10px' }}>{description || 'Describe your project so candidates know what they are joining.'}</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px', fontSize: '11px', color: 'var(--text-muted)' }}>
+            {roleType && (
+              <span className="badge">{roleType}</span>
+            )}
+            {seniority && (
+              <span className="badge">{seniority}</span>
+            )}
+            {workMode && (
+              <span className="badge">{workMode}</span>
+            )}
+            {duration && (
+              <span className="badge">{duration}</span>
+            )}
+            {!!openings && (
+              <span className="badge">{openings} opening{openings > 1 ? 's' : ''}</span>
+            )}
+            {compensation && (
+              <span className="badge">{compensation}</span>
+            )}
+          </div>
+          <div>
+            <h4 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)', marginBottom: '6px' }}>Skills preview</h4>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+              {skillsConfig.split(',').map(s => s.trim()).filter(Boolean).slice(0, 8).map(skill => (
+                <span key={skill} className="badge" style={{ fontSize: '11px' }}>{skill}</span>
+              ))}
+              {skillsConfig.trim() === '' && (
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Skills you add will appear here.</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

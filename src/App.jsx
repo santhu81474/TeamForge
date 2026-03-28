@@ -16,6 +16,7 @@ import SkillTest from './pages/SkillTest';
 import Applications from './pages/Applications';
 import Reviews from './pages/Reviews';
 import Leaderboard from './pages/Leaderboard';
+import ExploreProjects from './pages/ExploreProjects';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
               
               {/* Protected Routes */}
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/explore" element={<ProtectedRoute><ExploreProjects /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/projects/create" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
               <Route path="/skill-test" element={<ProtectedRoute><SkillTest /></ProtectedRoute>} />
