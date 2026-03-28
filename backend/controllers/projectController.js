@@ -59,4 +59,23 @@ const applyToProject = async (req, res, next) => {
   }
 };
 
-module.exports = { createProject, getProjects, applyToProject };
+const getUserApplications = async (req, res, next) => {
+  try {
+    const projects = await Project.find({ applicants: req.user.id })
+      .populate('ownerId', 'name');
+    
+    // Transform to match frontend expectation (appliedDate status etc)
+    const applications = projects.map(p => ({
+      id: p._id,
+      title: p.title,
+      status: 'Under Review', // Mock status for now as we don't have a status field in Project applicants array
+      appliedDate: p.createdAt.toISOString().split('T')[0]
+    }));
+    
+    res.json(applications);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createProject, getProjects, applyToProject, getUserApplications };

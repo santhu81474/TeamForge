@@ -60,8 +60,8 @@ export const AuthProvider = ({ children }) => {
     persistUser(data);
   };
 
-  const signup = async (name, email, password, skillsArray) => {
-    const { data } = await registerUser({ name, email, password, skills: skillsArray });
+  const signup = async (name, email, password, skillsArray, githubUrl, linkedinUrl) => {
+    const { data } = await registerUser({ name, email, password, skills: skillsArray, githubUrl, linkedinUrl });
     localStorage.setItem('token', data.token);
     setToken(data.token);
     persistUser(data);

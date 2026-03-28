@@ -28,6 +28,7 @@ export const getProfile = () => api.get('/users/profile');
 export const fetchProjects = () => api.get('/projects');
 export const createProject = (projectData) => api.post('/projects', projectData);
 export const applyToProject = (projectId, userSkills) => api.post(`/projects/${projectId}/apply`, { userSkills });
+export const fetchUserApplications = () => api.get('/projects/my-applications');
 
 // Tests & Reviews
 export const submitTest = (testId, userAnswers) => api.post('/tests/submit', { testId, userAnswers });

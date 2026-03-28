@@ -7,6 +7,8 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [skills, setSkills] = useState('');
+  const [githubUrl, setGithubUrl] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
   const [error, setError] = useState('');
   const { signup } = useAuth();
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const skillsArray = skills.split(',').map(s => s.trim()).filter(s => s);
-      await signup(name, email, password, skillsArray);
+      await signup(name, email, password, skillsArray, githubUrl, linkedinUrl);
       navigate('/dashboard');
     } catch (err) {
       console.error("Signup Error:", err);
@@ -80,6 +82,28 @@ const Signup = () => {
             placeholder="e.g. React, Node.js, Graph Theory"
             value={skills} 
             onChange={(e) => setSkills(e.target.value)} 
+            style={{ padding: '8px 12px' }}
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-2" style={{ color: 'var(--text-main)', fontSize: '14px' }}>GitHub Profile Link</label>
+          <input 
+            type="url" 
+            className="form-input w-full" 
+            placeholder="https://github.com/yourusername"
+            value={githubUrl} 
+            onChange={(e) => setGithubUrl(e.target.value)} 
+            style={{ padding: '8px 12px' }}
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-2" style={{ color: 'var(--text-main)', fontSize: '14px' }}>LinkedIn Profile Link</label>
+          <input 
+            type="url" 
+            className="form-input w-full" 
+            placeholder="https://linkedin.com/in/yourusername"
+            value={linkedinUrl} 
+            onChange={(e) => setLinkedinUrl(e.target.value)} 
             style={{ padding: '8px 12px' }}
           />
         </div>

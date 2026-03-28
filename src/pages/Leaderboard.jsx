@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
-
-const mockRankings = [
-  { id: 1, name: 'Alice Smith', rank: 1, rating: 4.9, points: 1540, skills: ['Python', 'AI'] },
-  { id: 2, name: 'John Doe', rank: 2, rating: 4.8, points: 1420, skills: ['React', 'Node.js'] },
-  { id: 3, name: 'Bob Johnson', rank: 3, rating: 4.6, points: 1280, skills: ['Java', 'Spring'] },
-  { id: 4, name: 'Emma Davis', rank: 4, rating: 4.5, points: 1150, skills: ['UI/UX', 'Figma'] },
-  { id: 5, name: 'Michael Brown', rank: 5, rating: 4.2, points: 950, skills: ['C++', 'Rust'] }
-];
+import { fetchLeaderboard } from '../services/api';
 
 const Leaderboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Simulate API fetch
-    setTimeout(() => {
-      setUsers(mockRankings);
-      setLoading(false);
-    }, 600);
+    const loadLeaderboard = async () => {
+      try {
+        const { data } = await fetchLeaderboard();
+        setUsers(data || []);
+      } catch (err) {
+        console.error('Error loading leaderboard', err);
+        setError('Unable to load leaderboard at the moment.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadLeaderboard();
   }, []);
 
   if (loading) return <div className="text-center mt-2">Loading leaderboard...</div>;
+
+  if (error) return <div className="text-center mt-2 text-red-500">{error}</div>;
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -41,16 +45,18 @@ const Leaderboard = () => {
           </thead>
           <tbody>
             {users.map((user, index) => (
-              <tr key={user.id} style={{ borderBottom: index < users.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
+              <tr key={user._id || user.id || index} style={{ borderBottom: index < users.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
                 <td style={{ padding: '1rem 1.5rem' }}>
-                  {user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : user.rank === 3 ? '🥉' : `#${user.rank}`}
+                  {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
                 </td>
                 <td style={{ padding: '1rem 1.5rem', fontWeight: 500 }}>{user.name}</td>
                 <td style={{ padding: '1rem 1.5rem' }}>
-                  {user.skills.map(s => <span key={s} className="badge" style={{ marginBottom: 0 }}>{s}</span>)}
+                  {(user.skills || []).map(s => (
+                    <span key={s} className="badge" style={{ marginBottom: 0 }}>{s}</span>
+                  ))}
                 </td>
-                <td style={{ padding: '1rem 1.5rem', color: '#F59E0B', fontWeight: 500 }}>★ {user.rating}</td>
-                <td style={{ padding: '1rem 1.5rem', textAlign: 'right', fontWeight: 600, color: 'var(--primary)' }}>{user.points}</td>
+                <td style={{ padding: '1rem 1.5rem', color: '#F59E0B', fontWeight: 500 }}>★ {user.rating ?? 0}</td>
+                <td style={{ padding: '1rem 1.5rem', textAlign: 'right', fontWeight: 600, color: 'var(--primary)' }}>{Math.floor((user.rating || 0) * 100)}</td>
               </tr>
             ))}
           </tbody>

@@ -19,6 +19,7 @@ const Login = () => {
     }
   };
 
+
   return (
     <div className="card" style={{ maxWidth: '400px', margin: '60px auto', padding: '32px' }}>
       <div style={{ textAlign: 'center', marginBottom: '24px' }}>
@@ -55,7 +56,7 @@ const Login = () => {
         </div>
         <button type="submit" className="btn btn-primary mt-2" style={{ width: '100%', padding: '10px' }}>Authorize Signature</button>
       </form>
-      
+
       <div style={{ marginTop: '24px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', textAlign: 'center', fontSize: '14px', color: 'var(--text-muted)' }}>
         No presence node found? <Link to="/signup" style={{ color: 'var(--link-color)' }}>Construct a footprint.</Link>
       </div>

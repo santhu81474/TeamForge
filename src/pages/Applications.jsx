@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-const mockAppliedProjects = [
-  { id: 1, title: 'E-commerce Redesign', status: 'Under Review', appliedDate: '2023-10-01' },
-  { id: 4, title: 'Mobile App for Fitness', status: 'Accepted', appliedDate: '2023-09-28' }
-];
+import { fetchUserApplications } from '../services/api';
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API fetch
-    setTimeout(() => {
-      setApplications(mockAppliedProjects);
-      setLoading(false);
-    }, 500);
+    const getApplications = async () => {
+      try {
+        const { data } = await fetchUserApplications();
+        setApplications(data);
+      } catch (err) {
+        console.error("Applications fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getApplications();
   }, []);
 
   if (loading) return <div className="text-center mt-2">Loading applications...</div>;
