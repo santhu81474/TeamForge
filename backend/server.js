@@ -24,15 +24,17 @@ app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 // Global Error Handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/skillnetwork';
 
-// Debug: verify that MONGO_URI is loaded from environment
 console.log('ENV CHECK:', process.env.MONGO_URI ? 'Loaded' : 'Missing');
-console.log('Using MONGO_URI value:', MONGO_URI);
+console.log('Using MONGO_URI value:', process.env.MONGO_URI);
 
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('Mongo error:', err));
-
-app.listen(PORT, () => console.log(`Server safely started on port ${PORT}`));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(process.env.PORT || 5000, () => {
+      console.log('Server safely started on port 5000');
+    });
+  })
+  .catch(err => {
+    console.log('Mongo error:', err);
+  });
