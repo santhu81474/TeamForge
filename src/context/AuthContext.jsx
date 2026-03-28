@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', token);
       setToken(token);
       persistUser(userData);
+      console.log('AUTHCTX: userData after login', userData);
       setLoading(false);
       return true;
     } catch (err) {
@@ -89,6 +90,9 @@ export const AuthProvider = ({ children }) => {
     window.location.href = '/login';
   };
 
+  useEffect(() => {
+    console.log('AUTHCTX: user state changed', user);
+  }, [user]);
   return (
     <AuthContext.Provider value={{ user, token, login, signup, logout, loading, setUserFromProfile: persistUser }}>
       {!loading && children}

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
+  console.log('PROTECTEDROUTE: user', user, 'loading', loading);
 
   if (loading) {
     return null; // or a loader component if you have one
