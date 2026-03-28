@@ -27,12 +27,12 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/skillnetwork';
 
+// Debug: verify that MONGO_URI is loaded from environment
+console.log('ENV CHECK:', process.env.MONGO_URI ? 'Loaded' : 'Missing');
+console.log('Using MONGO_URI value:', MONGO_URI);
+
 mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connection established successfully.');
-  })
-  .catch(err => {
-    console.error('MongoDB database connection error. Is MongoDB running locally?', err.message);
-  });
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log('Mongo error:', err));
 
 app.listen(PORT, () => console.log(`Server safely started on port ${PORT}`));
