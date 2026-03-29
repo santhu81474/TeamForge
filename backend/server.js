@@ -7,7 +7,13 @@ const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 
 // Global Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://teamforge-frontend-ff1k68pn4-santhoshkuar18-6464s-projects.vercel.app",
+    "https://teamforge-frontend-six.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Basic Route for testing
