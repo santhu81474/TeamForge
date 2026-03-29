@@ -52,21 +52,7 @@ const publicPath = path.join(__dirname, '../public');
 app.use(express.static(distPath));
 app.use(express.static(publicPath));
 
-app.get('*', (req, res, next) => {
-  if (req.url.startsWith('/api')) {
-    console.log(`[404] API Not Found: ${req.url}`);
-    return res.status(404).json({ message: 'API Endpoint not found' });
-  }
-  
-  const indexPath = path.join(distPath, 'index.html');
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      // If index.html is missing, the build might be incomplete
-      console.log(`[404] SPA Index Not Found at ${indexPath}. Falling back to 404.`);
-      res.status(404).send('Frontend not built. Please run npm run build if using this port.');
-    }
-  });
-});
+// Removed catch-all route for SPA. Vercel handles SPA routing via vercel.json in production.
 
 // Global Error Handler
 app.use(errorHandler);
