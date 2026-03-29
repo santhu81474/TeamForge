@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -10,7 +11,10 @@ const app = express();
 app.use(cors({
   origin: [
     "https://teamforge-frontend-ff1k68pn4-santhoshkuar18-6464s-projects.vercel.app",
-    "https://teamforge-frontend-six.vercel.app"
+    "https://teamforge-frontend-six.vercel.app",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+    "http://localhost:5173"
   ],
   credentials: true
 }));
@@ -29,6 +33,18 @@ app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/tests', require('./routes/testRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
+
+// SPA Catch-all: Serve frontend dist if it exists, otherwise provide 404 for unknown API
+if (process.env.NODE_ENV === 'production' || true) {
+  const distPath = path.join(__dirname, '../dist');
+  app.use(express.static(distPath));
+  
+  // Only catch non-API routes
+  app.get('*', (req, res, next) => {
+    if (req.url.startsWith('/api')) return next();
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
 
 // Global Error Handler
 app.use(errorHandler);
