@@ -160,7 +160,7 @@ const Dashboard = () => {
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 2.75A.75.75 0 013.25 2h9.5a.75.75 0 01.75.75v8.5a.75.75 0 01-.75.75h-4.5l-1.72 2.293A.75.75 0 015.5 14.75V12h-2.25a.75.75 0 01-.75-.75v-8.5z"/></svg>
           </span>
           <div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Projects I Own</div>
+            <div className="mono" style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Projects I Own</div>
             <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.myOwned}</div>
           </div>
         </div>
@@ -191,7 +191,7 @@ const Dashboard = () => {
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                   <h3 className="card-title" style={{ marginBottom: 0, fontSize: '1.2rem' }}>{project.title}</h3>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{new Date(project.timestamp).toLocaleDateString()}</span>
+                  <span className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{new Date(project.timestamp).toLocaleDateString()}</span>
                 </div>
                 
                 <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '16px' }}>
@@ -247,17 +247,23 @@ const Dashboard = () => {
               </div>
               
               <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                <span className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                   <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: 'text-bottom' }}>
                     <path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path>
                   </svg>
-                  {project.applicants?.length || 0} applications active
+                  {project.applicants?.length || 0} nodes active
                 </span>
                 
                 {isOwner ? (
-                  <span style={{ fontSize: '12px', color: '#39d353', fontWeight: '500', padding: '4px 12px', backgroundColor: 'rgba(57, 211, 83, 0.1)', borderRadius: '12px', border: '1px solid rgba(57, 211, 83, 0.3)' }}>Your Asset</span>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <span style={{ fontSize: '12px', color: '#39d353', fontWeight: '500', padding: '4px 12px', backgroundColor: 'rgba(57, 211, 83, 0.1)', borderRadius: '12px', border: '1px solid rgba(57, 211, 83, 0.3)' }}>Your Asset</span>
+                    <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ padding: '4px 12px', fontSize: '12px' }}>TERMINAL_CHAT</Link>
+                  </div>
                 ) : hasApplied ? (
-                  <button className="btn btn-outline" disabled style={{ opacity: 0.5, cursor: 'not-allowed', padding: '6px 16px', fontSize: '13px' }}>Enrolled</button>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button className="btn btn-outline" disabled style={{ opacity: 0.5, cursor: 'not-allowed', padding: '6px 16px', fontSize: '13px' }}>Enrolled</button>
+                    <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ padding: '4px 12px', fontSize: '12px' }}>TERMINAL_CHAT</Link>
+                  </div>
                 ) : (
                   <button className="btn btn-primary" onClick={() => handleApply(project._id)} style={{ padding: '6px 16px', fontSize: '13px' }}>Submit Request to Join</button>
                 )}

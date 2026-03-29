@@ -17,6 +17,9 @@ import Applications from './pages/Applications';
 import Reviews from './pages/Reviews';
 import Leaderboard from './pages/Leaderboard';
 import ExploreProjects from './pages/ExploreProjects';
+import Arena from './pages/Arena';
+import TerminalChat from './pages/TerminalChat';
+import Forge from './pages/Forge';
 
 function App() {
   return (
@@ -40,6 +43,9 @@ function App() {
               <Route path="/applications" element={<ProtectedRoute><Applications /></ProtectedRoute>} />
               <Route path="/projects/:id/review" element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
               <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+              <Route path="/arena" element={<ProtectedRoute><Arena /></ProtectedRoute>} />
+              <Route path="/projects/:id/chat" element={<ProtectedRoute><TerminalChat /></ProtectedRoute>} />
+              <Route path="/forge" element={<ProtectedRoute><Forge /></ProtectedRoute>} />
               
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/dashboard" replace />} />

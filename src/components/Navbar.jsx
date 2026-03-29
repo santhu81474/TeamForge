@@ -104,6 +104,14 @@ const Navbar = () => {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
               Leaderboard
             </Link>
+            <Link to="/arena" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 0a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0V1.5H6.75v13h1.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5h1.5V1.5H3.75v6.75a.75.75 0 0 1-1.5 0V.75A.75.75 0 0 1 3 0h6.5Z"></path></svg>
+              Arena
+            </Link>
+            <Link to="/forge" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 1.5a.75.75 0 0 0-1.5 0v13a.75.75 0 0 0 1.5 0v-13Zm12.5 0a.75.75 0 0 0-1.5 0v13a.75.75 0 0 0 1.5 0v-13ZM8 2.75a.75.75 0 0 1 .75.75v3.25h3.25a.75.75 0 0 1 0 1.5H8.75v3.25a.75.75 0 0 1-1.5 0V8.25H4a.75.75 0 0 1 0-1.5h3.25V3.5A.75.75 0 0 1 8 2.75Z"></path></svg>
+              Forge
+            </Link>
             <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
               Profile

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import SkillBadges from '../components/SkillBadges';
+import Chart from 'react-apexcharts';
 import { updateProfile, fetchProjects, fetchUserApplications } from '../services/api';
 
 const Profile = () => {
@@ -229,19 +230,40 @@ const Profile = () => {
             ))}
           </div>
           
-          <h3 className="card-title" style={{ marginTop: '2rem' }}>Skill Achievements</h3>
-          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
-            Verified via TeamForge Skill Testing System (ADA Math Baseline).
-          </p>
-          <div style={{ marginTop: '12px', padding: '12px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border-color)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px' }}>
-              <span>React Core Performance</span>
-              <span style={{ color: '#39d353' }}>PASSED</span>
-            </div>
-            <div style={{ height: '4px', width: '100%', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px' }}>
-              <div style={{ height: '100%', width: '100%', backgroundColor: '#39d353', borderRadius: '2px' }}></div>
-            </div>
+          <h3 className="card-title" style={{ marginTop: '2rem' }}>Skill Proficiency Matrix</h3>
+          <div style={{ backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '10px', border: '1px solid var(--border-color)' }}>
+            <Chart
+              options={{
+                chart: { id: 'skill-radar', toolbar: { show: false }, background: 'transparent' },
+                xaxis: { categories: ['Frontend', 'Backend', 'DevOps', 'DSA', 'System Design'], labels: { style: { colors: '#8b949e', fontFamily: 'var(--font-mono)' } } },
+                yaxis: { show: false },
+                fill: { opacity: 0.4, colors: ['#2ecc71'] },
+                stroke: { show: true, width: 2, colors: ['#2ecc71'] },
+                markers: { size: 4, colors: ['#2ecc71'] },
+                grid: { show: false },
+                theme: { mode: 'dark' }
+              }}
+              series={[{ name: 'Skill Level', data: [80, 70, 45, 90, 60] }]}
+              type="radar"
+              height="250"
+            />
           </div>
+
+          <h3 className="card-title" style={{ marginTop: '2rem' }}>Proof-of-Work Heatmap</h3>
+          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '12px' }}>
+            {Array.from({ length: 52 }).map((_, i) => (
+              <div key={i} style={{ 
+                width: '12px', 
+                height: '12px', 
+                backgroundColor: i % 7 === 0 ? 'var(--neon-green)' : i % 3 === 0 ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
+                borderRadius: '2px',
+                opacity: i % 5 === 0 ? 0.3 : 1
+              }} title={`Week ${i}: ${i % 3} Contributions`} />
+            ))}
+          </div>
+          <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '8px' }}>
+            DAILY_UPLOAD_LOG: {new Date().toLocaleDateString()} | STATUS: NO_LATENCY
+          </p>
 
           <h3 className="card-title" style={{ marginTop: '2rem' }}>Completed Projects ({user?.projectsCompleted || 0})</h3>
           <ul style={{ listStyleType: 'none', padding: 0, marginTop: '1rem' }}>

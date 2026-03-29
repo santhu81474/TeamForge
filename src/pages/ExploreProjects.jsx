@@ -246,17 +246,17 @@ const ExploreProjects = () => {
         })}
 
         {filtered.length === 0 && (
-          <div
-            style={{
-              gridColumn: 'span 3',
-              textAlign: 'center',
-              padding: '40px',
-              color: 'var(--text-muted)',
-              border: '1px dashed var(--border-color)',
-              borderRadius: '8px'
-            }}
-          >
-            No projects match your filters yet. Try clearing search or skills.
+          <div className="empty-state card glass" style={{ gridColumn: 'span 3', padding: '60px 40px' }}>
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="8" stroke="var(--border-color)" strokeWidth="2"/>
+              <path d="M21 21L16.65 16.65" stroke="var(--border-color)" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M11 8V11L13 13" stroke="var(--neon-green)" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            <h2 className="mono" style={{ color: 'var(--neon-green)', marginTop: '20px' }}>ZERO_RESULTS_FOUND</h2>
+            <p className="text-muted" style={{ maxWidth: '400px', margin: '12px auto' }}>
+              The current filter parameters yielded no matches. Try widening your search frequency or clearing skill constraints.
+            </p>
+            <button className="btn btn-outline neon-hover" onClick={() => { setSearch(''); setSkillFilter(''); }}>RESET_FILTERS</button>
           </div>
         )}
       </div>

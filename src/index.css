@@ -1,17 +1,41 @@
-/* --- Neon Green Glow for Interactive Elements --- */
-.neon-hover {
-  transition: box-shadow 0.2s, border-color 0.2s;
-  box-shadow: 0 0 0px rgba(34, 197, 94, 0);
+:root {
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
+  
+  --bg-color: #0d1117;
+  --bg-card: rgba(22, 27, 34, 0.65);
+  --bg-card-hover: #1c2128;
+  
+  --primary: #238636;
+  --primary-hover: #2ea043;
+  --primary-glow: rgba(46, 160, 67, 0.4);
+  
+  --neon-green: #2ecc71;
+  --neon-glow: 0 0 12px rgba(46, 160, 67, 0.5);
+  
+  --border-color: #30363d;
+  --text-main: #c9d1d9;
+  --text-muted: #8b949e;
+  --link-color: #58a6ff;
+  --link-glow: rgba(88, 166, 255, 0.3);
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* --- Hacker Aesthetic Utilities --- */
+.neon-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .neon-hover:hover, .neon-hover:focus-visible {
-  box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.4), 0 0 1px 1px #22c55e;
-  border-color: #22c55e !important;
+  box-shadow: var(--neon-glow);
+  border-color: var(--neon-green) !important;
+  transform: translateY(-2px);
   z-index: 2;
 }
 
-/* --- Monospace Accents for Data Points --- */
 .mono {
-  font-family: 'Fira Mono', 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.5px;
 }
 
@@ -23,46 +47,28 @@
   border-radius: 6px;
   min-height: 18px;
 }
+
 @keyframes skeleton-pulse {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
-/* --- Glassmorphism Modal Base --- */
-.glass-modal {
-  background: rgba(22, 27, 34, 0.75);
-  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+/* --- Glassmorphism --- */
+.glass {
+  background: rgba(13, 17, 23, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 1px solid rgba(34, 197, 94, 0.12);
-  padding: 32px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* --- Engaging Empty State SVG Container --- */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  padding: 40px 0;
-  gap: 18px;
-}
-:root {
-  --primary: #238636;
-  --primary-hover: #2ea043;
-  --primary-glow: rgba(35, 134, 54, 0.4);
-  --bg-color: #0d1117;
-  --text-main: #c9d1d9;
-  --text-muted: #8b949e;
-  --card-bg: rgba(22, 27, 34, 0.65); /* Modern Glass */
-  --border-color: #30363d;
-  --link-color: #58a6ff;
-  --link-glow: rgba(88, 166, 255, 0.3);
-  --header-bg: rgba(22, 27, 34, 0.7); /* Frosted Glass */
-  --header-text: #ffffff;
-  --header-text-muted: rgba(255, 255, 255, 0.7);
+.glass-modal {
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+  border-radius: 16px;
+  padding: 32px 24px;
 }
 
 /* Animations */
