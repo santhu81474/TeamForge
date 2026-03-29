@@ -11,6 +11,12 @@ const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ totalProjects: 0, myApplications: 0, myOwned: 0 });
+  // Mocked activity feed
+  const [activity, setActivity] = useState([
+    { id: 1, text: 'Node 0xA1 joined Project Quantum', time: '2m ago' },
+    { id: 2, text: 'Node 0xB7 submitted a review', time: '5m ago' },
+    { id: 3, text: 'Node 0xC3 deployed a new asset', time: '12m ago' },
+  ]);
   
   // Handling Global Search System Queries
   const location = useLocation();
@@ -108,174 +114,148 @@ const Dashboard = () => {
   );
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px', marginBottom: '20px' }}>
-        <div className="card neon-hover" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-          <span style={{
-            width: 32,
-            height: 32,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(88,166,255,0.12)',
-            color: '#58A6FF'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 2A1.75 1.75 0 000 3.75v8.5C0 13.216.784 14 1.75 14h12.5A1.75 1.75 0 0016 12.25v-8.5A1.75 1.75 0 0014.25 2H1.75zm0 1.5h12.5a.25.25 0 01.25.25v.56L8 7.5 1.5 4.31v-.56a.25.25 0 01.25-.25zm12.75 3.109L8.3 9.36a.75.75 0 01-.6 0L1.5 6.61v5.64a.25.25 0 00.25.25h12.5a.25.25 0 00.25-.25V6.61z"/></svg>
-          </span>
-          <div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Total Projects</div>
-            <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.totalProjects}</div>
+    <div style={{ maxWidth: '1300px', margin: '0 auto', display: 'flex', gap: '32px', padding: '0 20px' }}>
+      {/* Left Column: Main Dashboard (70%) */}
+      <div style={{ flex: 7, minWidth: 0 }}>
+        
+        {/* Command Center Stats Bar */}
+        <div className="glass-panel neon-border-dynamic scan-line" style={{ 
+          display: 'flex', 
+          gap: '32px', 
+          marginBottom: 32, 
+          alignItems: 'center', 
+          padding: '24px 32px',
+          position: 'relative'
+        }}>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div className="mono" style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>Total Projects</div>
+            <div className="mono" style={{ fontSize: 32, color: 'var(--neon-green)', fontWeight: 800, textShadow: '0 0 12px rgba(46,204,113,0.4)' }}>{stats.totalProjects}</div>
+          </div>
+          <div style={{ width: 1, height: 40, backgroundColor: 'rgba(255,255,255,0.05)' }} />
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div className="mono" style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>My Applications</div>
+            <div className="mono" style={{ fontSize: 32, color: '#3FB950', fontWeight: 800 }}>{stats.myApplications}</div>
+          </div>
+          <div style={{ width: 1, height: 40, backgroundColor: 'rgba(255,255,255,0.05)' }} />
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div className="mono" style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>Owned Assets</div>
+            <div className="mono" style={{ fontSize: 32, color: '#F2CC60', fontWeight: 800 }}>{stats.myOwned}</div>
           </div>
         </div>
-        <div className="card neon-hover" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-          <span style={{
-            width: 32,
-            height: 32,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(63,185,80,0.12)',
-            color: '#3FB950'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-6 6a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06L7 9.69l5.47-5.47a.75.75 0 011.06 0z"/></svg>
-          </span>
-          <div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>My Applications</div>
-            <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.myApplications}</div>
-          </div>
+
+        {/* Section Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <h1 className="page-title" style={{ marginBottom: 0, fontSize: '1.8rem' }}>Project Network</h1>
+          {searchQuery && (
+            <span className="mono" style={{ color: 'var(--link-color)', fontSize: '13px', backgroundColor: 'rgba(88, 166, 255, 0.08)', padding: '6px 14px', borderRadius: '4px', border: '1px solid rgba(88, 166, 255, 0.2)' }}>
+              QUERY_ACTIVE: "{searchQuery}"
+            </span>
+          )}
         </div>
-        <div className="card neon-hover" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-          <span style={{
-            width: 32,
-            height: 32,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(242,204,96,0.12)',
-            color: '#F2CC60'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 2.75A.75.75 0 013.25 2h9.5a.75.75 0 01.75.75v8.5a.75.75 0 01-.75.75h-4.5l-1.72 2.293A.75.75 0 015.5 14.75V12h-2.25a.75.75 0 01-.75-.75v-8.5z"/></svg>
-          </span>
-          <div>
-            <div className="mono" style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Projects I Own</div>
-            <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.myOwned}</div>
-          </div>
-        </div>
-      </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h1 className="page-title" style={{ marginBottom: 0 }}>Project Network</h1>
-        {searchQuery && (
-          <span style={{color: 'var(--link-color)', fontSize: '14px', backgroundColor: 'rgba(88, 166, 255, 0.1)', padding: '6px 14px', borderRadius: '16px', border: '1px solid rgba(88, 166, 255, 0.2)'}}>
-            Showing global search for: "{searchQuery}"
-          </span>
-        )}
-      </div>
-
-      <div className="grid grid-cols-2" style={{ gap: '16px' }}>
-        {filteredProjects.length === 0 ? (
-          <div className="empty-state" style={{ gridColumn: '1 / -1' }}>
-            <svg width="80" height="80" fill="none" viewBox="0 0 80 80"><rect x="10" y="30" width="60" height="30" rx="6" fill="#181c20" stroke="#22c55e" strokeWidth="2"/><rect x="25" y="45" width="30" height="10" rx="2" fill="#23272e"/><rect x="35" y="50" width="10" height="5" rx="1" fill="#181c20"/></svg>
-            <div>No projects match your filters.</div>
-            <Link to="/create" className="btn btn-primary neon-hover" style={{ marginTop: 8 }}>Create a Project</Link>
-          </div>
-        ) : filteredProjects.map(project => {
-          const hasApplied = project.applicants?.includes(user?.id);
-          const isOwner = project.ownerId?._id === user?.id;
-          
-          return (
-            <div key={project._id} className="card neon-hover" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', cursor: 'pointer' }}>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                  <h3 className="card-title" style={{ marginBottom: 0, fontSize: '1.2rem' }}>{project.title}</h3>
-                  <span className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{new Date(project.timestamp).toLocaleDateString()}</span>
-                </div>
-                
-                <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '16px' }}>
-                  Managed by <span style={{ color: 'var(--link-color)', fontWeight: '500' }}>{project.ownerId?.name || 'Unknown User'}</span>
-                </p>
-                
-                <p style={{ fontSize: '14px', color: 'var(--text-main)', marginBottom: '20px', lineHeight: '1.5' }}>
-                  {project.description}
-                </p>
-                
-                <div style={{ marginBottom: '8px' }}>
-                  <h4 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)', marginBottom: '8px' }}>Required Technical Alignments</h4>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                    {project.requiredSkills.map(skill => (
-                      <span key={skill} className="badge">{skill}</span>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '8px', fontSize: '11px', color: 'var(--text-muted)' }}>
-                  {project.roleType && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a2.5 2.5 0 00-1.985 4.028A3.501 3.501 0 004.5 8.5v.75a.75.75 0 01-1.5 0V8.5a5 5 0 019.986 0v.75a.75.75 0 01-1.5 0V8.5a3.501 3.501 0 00-1.515-2.972A2.5 2.5 0 008 1.5z"/></svg>
-                      {project.roleType}
-                    </span>
-                  )}
-                  {project.seniority && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.75A.75.75 0 013.75 2h8.5a.75.75 0 010 1.5h-8.5A.75.75 0 013 2.75zM3 5.75A.75.75 0 013.75 5h6.5a.75.75 0 010 1.5h-6.5A.75.75 0 013 5.75zM3 8.75A.75.75 0 013.75 8h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 013 8.75z"/></svg>
-                      {project.seniority}
-                    </span>
-                  )}
-                  {project.workMode && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 2A1.75 1.75 0 000 3.75v8.5C0 13.216.784 14 1.75 14h12.5A1.75 1.75 0 0016 12.25v-8.5A1.75 1.75 0 0014.25 2H1.75zm0 1.5h12.5a.25.25 0 01.25.25v8.5a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25z"/></svg>
-                      {project.workMode}
-                    </span>
-                  )}
-                  {project.duration && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.75a.75.75 0 01.75.75v4.19l2.22 2.22a.75.75 0 11-1.06 1.06L7.47 7.53A.75.75 0 017.25 7V2.5A.75.75 0 018 1.75z"/></svg>
-                      {project.duration}
-                    </span>
-                  )}
-                  {typeof project.openings === 'number' && project.openings > 0 && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M10.561 8.073a6.005 6.005 0 013.432 5.142.75.75 0 11-1.498.07 4.5 4.5 0 00-8.99 0 .75.75 0 11-1.498-.07 6.004 6.004 0 013.431-5.142 3.999 3.999 0 115.123 0zM10.5 5a2.5 2.5 0 10-5 0 2.5 2.5 0 005 0z"/></svg>
-                      {project.openings} opening{project.openings > 1 ? 's' : ''}
-                    </span>
-                  )}
-                </div>
-
-              </div>
-              
-              <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: 'text-bottom' }}>
-                    <path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path>
-                  </svg>
-                  {project.applicants?.length || 0} nodes active
-                </span>
-                
-                {isOwner ? (
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <span style={{ fontSize: '12px', color: '#39d353', fontWeight: '500', padding: '4px 12px', backgroundColor: 'rgba(57, 211, 83, 0.1)', borderRadius: '12px', border: '1px solid rgba(57, 211, 83, 0.3)' }}>Your Asset</span>
-                    <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ padding: '4px 12px', fontSize: '12px' }}>TERMINAL_CHAT</Link>
-                  </div>
-                ) : hasApplied ? (
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button className="btn btn-outline" disabled style={{ opacity: 0.5, cursor: 'not-allowed', padding: '6px 16px', fontSize: '13px' }}>Enrolled</button>
-                    <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ padding: '4px 12px', fontSize: '12px' }}>TERMINAL_CHAT</Link>
-                  </div>
-                ) : (
-                  <button className="btn btn-primary" onClick={() => handleApply(project._id)} style={{ padding: '6px 16px', fontSize: '13px' }}>Submit Request to Join</button>
-                )}
-              </div>
+        {/* Project Grid */}
+        <div className="grid grid-cols-2" style={{ gap: '20px' }}>
+          {filteredProjects.length === 0 ? (
+            <div className="glass-panel" style={{ gridColumn: 'span 2', textAlign: 'center', padding: '80px 40px', borderStyle: 'dashed' }}>
+              <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={{ margin: '0 auto 20px', opacity: 0.6 }}>
+                <ellipse cx="50" cy="50" rx="40" ry="20" stroke="var(--neon-green)" strokeWidth="1" strokeDasharray="4 4" />
+                <path d="M30 50H70" stroke="var(--neon-green)" strokeWidth="1" />
+                <path d="M50 30V70" stroke="var(--neon-green)" strokeWidth="1" />
+                <circle cx="50" cy="50" r="4" fill="var(--neon-green)" className="pulse" />
+              </svg>
+              <h2 className="mono" style={{ color: 'var(--neon-green)', fontSize: '20px', marginBottom: '8px' }}>ZERO_SIGNALS_DETECTED</h2>
+              <p className="text-muted" style={{ maxWidth: '400px', margin: '0 auto 24px' }}>
+                The neural network found no active projects matching your current search parameters. Clear the cache or create a new node.
+              </p>
+              <Link to="/create" className="btn btn-primary neon-hover">DEPLOY_NEW_PROJECT</Link>
             </div>
-          );
-        })}
-        {filteredProjects.length === 0 && (
-          <div style={{ gridColumn: 'span 2', textAlign: 'center', padding: '40px', color: 'var(--text-muted)', border: '1px dashed var(--border-color)', borderRadius: '8px' }}>
-            No live data found tracking to this server query. <Link to="/projects/create" style={{ color: 'var(--link-color)' }}>Deploy one to the network!</Link>
+          ) : (
+            filteredProjects.map(project => {
+              const hasApplied = project.applicants?.includes(user?.id);
+              const isOwner = project.ownerId?._id === user?.id;
+              
+              return (
+                <div key={project._id} className="card glass-panel neon-hover" style={{ display: 'flex', flexDirection: 'column', padding: '24px' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                      <h3 className="card-title mono" style={{ fontSize: '1.2rem', color: 'var(--neon-green)', margin: 0 }}>{project.title}</h3>
+                      <span className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{new Date(project.timestamp).toLocaleDateString()}</span>
+                    </div>
+                    
+                    <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px' }}>
+                      NODE_OWNER: <span style={{ color: 'var(--link-color)' }}>{project.ownerId?.name || 'ANON_USER'}</span>
+                    </p>
+                    
+                    <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', marginBottom: '20px', lineHeight: '1.6', height: '4.8em', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+                      {project.description}
+                    </p>
+                    
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
+                      {project.requiredSkills.slice(0, 4).map(skill => (
+                        <span key={skill} className="badge mono" style={{ fontSize: '10px' }}>{skill}</span>
+                      ))}
+                      {project.requiredSkills.length > 4 && <span className="badge mono" style={{ fontSize: '10px' }}>+{project.requiredSkills.length - 4}</span>}
+                    </div>
+                  </div>
+
+                  <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                      STATUS: {project.applicants?.length || 0} ACTIVE_NODES
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      {(isOwner || hasApplied) && (
+                        <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ fontSize: '11px', padding: '6px 12px' }}>TERMINAL_CHAT</Link>
+                      )}
+                      {!isOwner && !hasApplied && (
+                        <button className="btn btn-primary mono" onClick={() => handleApply(project._id)} style={{ fontSize: '11px', padding: '6px 12px' }}>JOIN_REQ</button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      {/* Right Column: Sidebar (30%) */}
+      <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        
+        {/* Network Pulse Sidebar */}
+        <div className="glass-panel" style={{ padding: '24px', position: 'relative', overflow: 'hidden' }}>
+          <div className="mono" style={{ color: 'var(--neon-green)', fontSize: '14px', marginBottom: '20px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="pulse" style={{ width: 8, height: 8, backgroundColor: 'var(--neon-green)', borderRadius: '50%' }} />
+            NETWORK_PULSE
           </div>
-        )}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {activity.map(a => (
+              <div key={a.id} style={{ borderLeft: '2px solid rgba(46,204,113,0.2)', paddingLeft: '12px', paddingBottom: '4px' }}>
+                <div className="mono" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', marginBottom: '4px' }}>{a.text}</div>
+                <div className="mono" style={{ fontSize: '10px', color: 'var(--text-muted)' }}>TIMESTAMP_LOG: {a.time}</div>
+              </div>
+            ))}
+          </div>
+          <div className="scan-line" style={{ height: 1, marginTop: 20, opacity: 0.1 }} />
+        </div>
+
+        {/* System Operations Sidebar */}
+        <div className="glass-panel" style={{ padding: '24px' }}>
+          <div className="mono" style={{ color: '#58A6FF', fontSize: '14px', marginBottom: '20px', letterSpacing: '2px' }}>SYS_OPERATIONS</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <Link to="/create" className="btn btn-primary neon-hover mono" style={{ width: '100%', fontSize: '12px' }}>NEW_PROJECT_DEPL</Link>
+            <Link to="/leaderboard" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>GLOBAL_LEADERBOARD</Link>
+            <Link to="/arena" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>ENTER_ALGO_ARENA</Link>
+            <Link to="/forge" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>ACCESS_SNIPPET_FORGE</Link>
+          </div>
+        </div>
+
+        {/* Security Log */}
+        <div className="glass-panel" style={{ padding: '20px', backgroundColor: 'rgba(0,0,0,0.2)' }}>
+          <div className="mono" style={{ color: 'var(--text-muted)', fontSize: '11px', display: 'flex', justifyContent: 'space-between' }}>
+            <span>UPTIME: 99.9%</span>
+            <span>LATENCY: 12ms</span>
+          </div>
+        </div>
       </div>
     </div>
   );

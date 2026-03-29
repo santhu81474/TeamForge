@@ -19,8 +19,6 @@ const io = socketIo(server, {
 // Global Middleware
 app.use(cors({
   origin: [
-    "https://teamforge-frontend-ff1k68pn4-santhoshkuar18-6464s-projects.vercel.app",
-    "https://teamforge-frontend-six.vercel.app",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
     "http://localhost:5173",
@@ -45,14 +43,7 @@ app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 app.use('/api/challenges', require('./routes/challengeRoutes'));
 app.use('/api/snippets', require('./routes/snippetRoutes'));
 
-// SPA Catch-all: Serve frontend dist if it exists, otherwise provide 404 for unknown API
-const distPath = path.join(__dirname, '../dist');
-const publicPath = path.join(__dirname, '../public');
-
-app.use(express.static(distPath));
-app.use(express.static(publicPath));
-
-// Removed catch-all route for SPA. Vercel handles SPA routing via vercel.json in production.
+// ...existing code...
 
 // Global Error Handler
 app.use(errorHandler);
@@ -79,13 +70,17 @@ io.on('connection', (socket) => {
 console.log('ENV CHECK:', process.env.MONGO_URI ? 'Loaded' : 'Missing');
 console.log('Using MONGO_URI value:', process.env.MONGO_URI);
 
+// Start the Protocol
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`TeamForge Backend Protocol Active on Port ${PORT} ⚡`);
+});
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log('MongoDB connected');
-    server.listen(process.env.PORT || 5000, () => {
-      console.log('TeamForge Backend Protocol Active on Port 5000 ⚡');
-    });
+    console.log('MongoDB connection established successfully.');
   })
   .catch(err => {
-    console.log('Mongo error:', err);
+    console.error('CRITICAL: MongoDB connection failed:', err.message);
+    console.log('Platform status: DEGRADED (Check internet/MONGO_URI)');
   });
