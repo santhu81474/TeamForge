@@ -52,7 +52,7 @@ const publicPath = path.join(__dirname, '../public');
 app.use(express.static(distPath));
 app.use(express.static(publicPath));
 
-app.get('*', (req, res, next) => {
+app.get('/(.*)', (req, res, next) => {
   if (req.url.startsWith('/api')) {
     console.log(`[404] API Not Found: ${req.url}`);
     return res.status(404).json({ message: 'API Endpoint not found' });
