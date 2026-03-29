@@ -20,13 +20,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Basic Route for testing
-app.get('/', (req, res) => {
-  res.send('Backend is running 🚀');
-});
-app.get('/api/health', (req, res) => res.json({ message: 'Server is running normally' }));
-
 // Route Mappings
+app.use((req, res, next) => {
+  console.log(`[REQUEST] ${req.method} ${req.url}`);
+  next();
+});
+
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
@@ -35,16 +34,27 @@ app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 
 // SPA Catch-all: Serve frontend dist if it exists, otherwise provide 404 for unknown API
-if (process.env.NODE_ENV === 'production' || true) {
-  const distPath = path.join(__dirname, '../dist');
-  app.use(express.static(distPath));
+const distPath = path.join(__dirname, '../dist');
+const publicPath = path.join(__dirname, '../public');
+
+app.use(express.static(distPath));
+app.use(express.static(publicPath));
+
+app.get('*', (req, res, next) => {
+  if (req.url.startsWith('/api')) {
+    console.log(`[404] API Not Found: ${req.url}`);
+    return res.status(404).json({ message: 'API Endpoint not found' });
+  }
   
-  // Only catch non-API routes
-  app.get('*', (req, res, next) => {
-    if (req.url.startsWith('/api')) return next();
-    res.sendFile(path.join(distPath, 'index.html'));
+  const indexPath = path.join(distPath, 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      // If index.html is missing, the build might be incomplete
+      console.log(`[404] SPA Index Not Found at ${indexPath}. Falling back to 404.`);
+      res.status(404).send('Frontend not built. Please run npm run build if using this port.');
+    }
   });
-}
+});
 
 // Global Error Handler
 app.use(errorHandler);
