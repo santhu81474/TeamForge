@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const Application = require('../models/Application');
 const { calculateSkillMatch } = require('../utils/mathUtils');
 
 const createProject = async (req, res, next) => {
@@ -54,21 +55,30 @@ const getProjects = async (req, res, next) => {
 const applyToProject = async (req, res, next) => {
   try {
     const { projectId } = req.params;
-    const { userSkills } = req.body; // Passing user skill array in body payload for checking
+    const { userSkills } = req.body; 
     
     const project = await Project.findById(projectId);
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
-    // Discrete Mathematics Concept: Skill Matching calculation
-    const matchScore = calculateSkillMatch(userSkills, project.requiredSkills);
+    const matchScore = calculateSkillMatch(userSkills || [], project.requiredSkills);
     
-    // Validation ADA Concept: Score evaluation limit logic mock (50%)
     if (matchScore >= 50) {
-      if (!project.applicants.includes(req.user.id)) {
-        project.applicants.push(req.user.id);
-        await project.save();
+      // Create application record if it doesn't exist
+      let application = await Application.findOne({ projectId, userId: req.user.id });
+      if (!application) {
+        application = await Application.create({
+          projectId,
+          userId: req.user.id,
+          matchScore
+        });
+        
+        // Update project applicants array for visual count consistency
+        if (!project.applicants.includes(req.user.id)) {
+          project.applicants.push(req.user.id);
+          await project.save();
+        }
       }
-      res.json({ message: 'Successfully applied', matchScore });
+      res.json({ message: 'Successfully applied', matchScore, status: application.status });
     } else {
       res.status(400).json({ message: 'Skill match too low to apply', matchScore });
     }
@@ -79,18 +89,18 @@ const applyToProject = async (req, res, next) => {
 
 const getUserApplications = async (req, res, next) => {
   try {
-    const projects = await Project.find({ applicants: req.user.id })
-      .populate('ownerId', 'name');
+    const applications = await Application.find({ userId: req.user.id })
+      .populate('projectId', 'title createdAt');
     
-    // Transform to match frontend expectation (appliedDate status etc)
-    const applications = projects.map(p => ({
-      id: p._id,
-      title: p.title,
-      status: 'Under Review', // Mock status for now as we don't have a status field in Project applicants array
-      appliedDate: p.createdAt.toISOString().split('T')[0]
+    const formatted = applications.map(app => ({
+      id: app.projectId?._id,
+      applicationId: app._id,
+      title: app.projectId?.title || 'Unknown Project',
+      status: app.status,
+      appliedDate: app.appliedAt.toISOString().split('T')[0]
     }));
     
-    res.json(applications);
+    res.json(formatted);
   } catch (error) {
     next(error);
   }
