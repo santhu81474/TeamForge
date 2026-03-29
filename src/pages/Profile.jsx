@@ -178,7 +178,7 @@ const Profile = () => {
           </div>
           {/** Small stats strip using backend data */}
           <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '10px' }}>
-            <div className="card" style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="card neon-hover" style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <span style={{
                 width: 26,
                 height: 26,
@@ -193,10 +193,10 @@ const Profile = () => {
               </span>
               <div>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Projects created</div>
-                <div style={{ fontSize: 16, fontWeight: 600 }}>{ownedProjects.length}</div>
+                <div className="mono" style={{ fontSize: 16, fontWeight: 600 }}>{ownedProjects.length}</div>
               </div>
             </div>
-            <div className="card" style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="card neon-hover" style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <span style={{
                 width: 26,
                 height: 26,
@@ -211,7 +211,7 @@ const Profile = () => {
               </span>
               <div>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Applications sent</div>
-                <div style={{ fontSize: 16, fontWeight: 600 }}>{applications.length}</div>
+                <div className="mono" style={{ fontSize: 16, fontWeight: 600 }}>{applications.length}</div>
               </div>
             </div>
           </div>
@@ -263,13 +263,15 @@ const Profile = () => {
 
           <h3 className="card-title" style={{ marginTop: '2rem' }}>My Projects</h3>
           {ownedProjects.length === 0 ? (
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>
-              You haven't created any projects yet. Use the Create page to publish your first opportunity.
-            </p>
+            <div className="empty-state" style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>
+              <svg width="60" height="60" fill="none" viewBox="0 0 60 60"><rect x="8" y="20" width="44" height="20" rx="5" fill="#181c20" stroke="#22c55e" strokeWidth="2"/><rect x="18" y="32" width="24" height="6" rx="2" fill="#23272e"/><rect x="25" y="35" width="10" height="3" rx="1" fill="#181c20"/></svg>
+              <div>You haven't created any projects yet.</div>
+              <Link to="/create" className="btn btn-primary neon-hover" style={{ marginTop: 8 }}>Create your first project</Link>
+            </div>
           ) : (
             <ul style={{ listStyleType: 'none', padding: 0, marginTop: '0.75rem' }}>
               {ownedProjects.slice(0, 4).map(p => (
-                <li key={p._id} style={{
+                <li key={p._id} className="neon-hover" style={{
                   padding: '0.6rem 0.7rem',
                   backgroundColor: 'rgba(255,255,255,0.03)',
                   borderRadius: '6px',
@@ -277,13 +279,14 @@ const Profile = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  border: '1px solid rgba(255,255,255,0.04)'
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  cursor: 'pointer'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0113.25 15h-3.5a.75.75 0 01-.75-.75V9H7v5.25a.75.75 0 01-.75.75h-3.5A1.75 1.75 0 011 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2z"/></svg>
-                    <span style={{ fontWeight: 500, fontSize: '13px', color: 'var(--text-main)' }}>{p.title}</span>
+                    <span className="mono" style={{ fontWeight: 500, fontSize: '13px', color: 'var(--text-main)' }}>{p.title}</span>
                   </div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{p.applicants?.length || 0} applicants</span>
+                  <span className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{p.applicants?.length || 0} applicants</span>
                 </li>
               ))}
             </ul>

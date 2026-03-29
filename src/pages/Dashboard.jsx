@@ -96,12 +96,21 @@ const Dashboard = () => {
 
   const filteredProjects = getFilteredProjects();
 
-  if (loading) return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Retrieving live database connection...</div>;
+  if (loading) return (
+    <div style={{ padding: '2rem' }}>
+      <div className="skeleton" style={{ height: 40, width: 320, margin: '0 auto 24px', borderRadius: 8 }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginBottom: 24 }}>
+        <div className="skeleton" style={{ height: 80, borderRadius: 12 }} />
+        <div className="skeleton" style={{ height: 80, borderRadius: 12 }} />
+      </div>
+      <div className="skeleton" style={{ height: 220, borderRadius: 12 }} />
+    </div>
+  );
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px', marginBottom: '20px' }}>
-        <div className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="card neon-hover" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
           <span style={{
             width: 32,
             height: 32,
@@ -116,10 +125,10 @@ const Dashboard = () => {
           </span>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Total Projects</div>
-            <div style={{ fontSize: 18, fontWeight: 600 }}>{stats.totalProjects}</div>
+            <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.totalProjects}</div>
           </div>
         </div>
-        <div className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="card neon-hover" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
           <span style={{
             width: 32,
             height: 32,
@@ -134,10 +143,10 @@ const Dashboard = () => {
           </span>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>My Applications</div>
-            <div style={{ fontSize: 18, fontWeight: 600 }}>{stats.myApplications}</div>
+            <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.myApplications}</div>
           </div>
         </div>
-        <div className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="card neon-hover" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
           <span style={{
             width: 32,
             height: 32,
@@ -152,7 +161,7 @@ const Dashboard = () => {
           </span>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Projects I Own</div>
-            <div style={{ fontSize: 18, fontWeight: 600 }}>{stats.myOwned}</div>
+            <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{stats.myOwned}</div>
           </div>
         </div>
       </div>
@@ -167,12 +176,18 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-2" style={{ gap: '16px' }}>
-        {filteredProjects.map(project => {
+        {filteredProjects.length === 0 ? (
+          <div className="empty-state" style={{ gridColumn: '1 / -1' }}>
+            <svg width="80" height="80" fill="none" viewBox="0 0 80 80"><rect x="10" y="30" width="60" height="30" rx="6" fill="#181c20" stroke="#22c55e" strokeWidth="2"/><rect x="25" y="45" width="30" height="10" rx="2" fill="#23272e"/><rect x="35" y="50" width="10" height="5" rx="1" fill="#181c20"/></svg>
+            <div>No projects match your filters.</div>
+            <Link to="/create" className="btn btn-primary neon-hover" style={{ marginTop: 8 }}>Create a Project</Link>
+          </div>
+        ) : filteredProjects.map(project => {
           const hasApplied = project.applicants?.includes(user?.id);
           const isOwner = project.ownerId?._id === user?.id;
           
           return (
-            <div key={project._id} className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div key={project._id} className="card neon-hover" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', cursor: 'pointer' }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                   <h3 className="card-title" style={{ marginBottom: 0, fontSize: '1.2rem' }}>{project.title}</h3>
