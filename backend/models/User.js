@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema({
   projectsCompleted: { type: Number, default: 0 },
   isDemo: { type: Boolean, default: false },
   githubUrl: { type: String, default: '' },
-  linkedinUrl: { type: String, default: '' }
+  linkedinUrl: { type: String, default: '' },
+  challengesSolved: { type: Number, default: 0 },
+  arenaXP: { type: Number, default: 0 }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

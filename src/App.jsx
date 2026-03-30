@@ -20,6 +20,7 @@ import ExploreProjects from './pages/ExploreProjects';
 import Arena from './pages/Arena';
 import TerminalChat from './pages/TerminalChat';
 import Forge from './pages/Forge';
+import GeminiChat from './pages/GeminiChat';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
               <Route path="/arena" element={<ProtectedRoute><Arena /></ProtectedRoute>} />
               <Route path="/projects/:id/chat" element={<ProtectedRoute><TerminalChat /></ProtectedRoute>} />
               <Route path="/forge" element={<ProtectedRoute><Forge /></ProtectedRoute>} />
+              <Route path="/gemini-chat" element={<ProtectedRoute><GeminiChat /></ProtectedRoute>} />
               
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/dashboard" replace />} />

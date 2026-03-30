@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
 /* === Premium Hacker UI Utilities === */
 .glass-panel {
   background: rgba(22, 27, 34, 0.55);
@@ -60,8 +62,6 @@
   --link-color: #58a6ff;
   --link-glow: rgba(88, 166, 255, 0.3);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* --- Hacker Aesthetic Utilities --- */
 .neon-hover {

@@ -42,6 +42,7 @@ app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 app.use('/api/challenges', require('./routes/challengeRoutes'));
 app.use('/api/snippets', require('./routes/snippetRoutes'));
+app.use('/api/gemini', require('./routes/geminiRoutes'));
 
 // ...existing code...
 
