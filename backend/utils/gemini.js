@@ -1,94 +1,84 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+const MODEL = "gemini-2.0-flash";
 
 /**
- * Generates a new coding challenge for the day.
+ * Generates a new coding challenge
  */
 const generateChallenge = async () => {
   const prompt = `Generate a coding challenge for a "Hacker/Cyberpunk" themed platform.
-  Return a JSON object with:
-  - title: A cool hacker-style title.
-  - problemStatement: Clear description of the problem.
-  - difficulty: "Easy", "Medium", or "Hard".
-  - points: Integer (50-200).
-  - category: "DSA", "Backend", or "Frontend".
-  - testCases: Array of objects with { input, output }.
-  
-  Format: 
-  {
-    "title": "...",
-    "problemStatement": "...",
-    "difficulty": "...",
-    "points": 100,
-    "category": "...",
-    "testCases": [{"input": "...", "output": "..."}]
-  }
-  Output ONLY the JSON.`;
+Return ONLY valid JSON with:
+title, problemStatement, difficulty, points, category, testCases`;
 
   try {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    // Extract JSON from potential markdown backticks
-    const jsonStr = text.replace(/```json|```/g, "").trim();
-    return JSON.parse(jsonStr);
-  } catch (error) {
-    console.error("Gemini Generation Error:", error);
+    const res = await ai.models.generateContent({
+      model: MODEL,
+      contents: prompt,
+    });
+
+    const text = res.text;
+    return JSON.parse(text);
+  } catch (err) {
+    console.error("Gemini Generation Error:", err);
     return null;
   }
 };
 
 /**
- * Validates a code submission.
+ * Validates submission
  */
 const validateSubmission = async (challenge, lang, code) => {
   if (!code || code.trim().length < 5) {
-    return { isCorrect: false, feedback: "CODE_FRAGMENT_TOO_SMALL: Minimum 5 characters required." };
+    return { isCorrect: false, feedback: "CODE_TOO_SMALL" };
   }
 
-  const prompt = `You are a cold, efficient Hacker-AI code judge. 
-  Challenge: ${challenge.title}
-  Statement: ${challenge.problemStatement}
-  Language: ${lang}
-  User Code:
-  ${code}
-  
-  Evaluate if this code correctly solves the problem. 
-  Check for edge cases and logic.
-  Output ONLY a JSON object:
-  {
-    "isCorrect": boolean,
-    "feedback": "short technical feedback (hacker style)",
-    "executionTimeEstimate": integer (ms),
-    "memoryUsageEstimate": integer (KB)
-  }`;
+  const prompt = `
+Challenge: ${challenge.title}
+${challenge.problemStatement}
+
+Language: ${lang}
+Code:
+${code}
+
+Return ONLY JSON:
+{
+  "isCorrect": boolean,
+  "feedback": "short",
+  "executionTimeEstimate": number,
+  "memoryUsageEstimate": number
+}`;
 
   try {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    const jsonStr = text.replace(/```json|```/g, "").trim();
-    return JSON.parse(jsonStr);
-  } catch (error) {
-    console.error("Gemini Validation Error:", error);
-    return { isCorrect: false, feedback: "NEURAL_LINK_STABILITY_ERROR: Evaluation failed." };
+    const res = await ai.models.generateContent({
+      model: MODEL,
+      contents: prompt,
+    });
+
+    return JSON.parse(res.text);
+  } catch (err) {
+    console.error("Gemini Validation Error:", err);
+    return { isCorrect: false, feedback: "AI_FAILURE" };
   }
 };
 
 /**
- * Handles a conversation with Gemini.
+ * Chat
  */
 const chatWithGemini = async (prompt) => {
   try {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    return text || "No response received.";
-  } catch (error) {
-    console.error("Gemini Chat Error:", error.message);
-    throw error;
+    const res = await ai.models.generateContent({
+      model: MODEL,
+      contents: prompt,
+    });
+
+    return res.text || "No response";
+  } catch (err) {
+    console.error("Gemini Chat Error:", err);
+    throw err;
   }
 };
 

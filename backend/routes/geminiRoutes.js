@@ -10,10 +10,11 @@ router.post('/chat', protect, async (req, res) => {
     const response = await chatWithGemini(prompt);
     res.json({ response });
   } catch (error) {
-    console.error('Gemini chat error:', error.message);
-    res.status(500).json({ 
-      error: 'Gemini chat failed.', 
-      details: error.message,
+    // Print the full error object for debugging
+    console.error('FULL GEMINI ERROR:', error?.response?.data || error?.message || error);
+    res.status(500).json({
+      error: 'Gemini chat failed.',
+      details: error?.response?.data || error?.message || error,
       suggestion: 'Check API key or safety filters.'
     });
   }
