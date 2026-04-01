@@ -112,6 +112,14 @@ const Navbar = () => {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 1.5a.75.75 0 0 0-1.5 0v13a.75.75 0 0 0 1.5 0v-13Zm12.5 0a.75.75 0 0 0-1.5 0v13a.75.75 0 0 0 1.5 0v-13ZM8 2.75a.75.75 0 0 1 .75.75v3.25h3.25a.75.75 0 0 1 0 1.5H8.75v3.25a.75.75 0 0 1-1.5 0V8.25H4a.75.75 0 0 1 0-1.5h3.25V3.5A.75.75 0 0 1 8 2.75Z"></path></svg>
               Forge
             </Link>
+            <Link to="/skill-test" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1.75v11.5c0 .138.112.25.25.25h3.17l1.22 1.22a.25.25 0 0 0 .354 0l1.22-1.22h4.536a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25H2.75a.25.25 0 0 0-.25.25ZM1 1.75C1 .784 1.784 0 2.75 0h10.5C14.216 0 15 .784 15 1.75v11.5A1.75 1.75 0 0 1 13.25 15H9.06l-2.573 2.573A1.458 1.458 0 0 1 4.427 15H2.75A1.75 1.75 0 0 1 1 13.25Zm4.75 4a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0ZM9 5.75a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0Z"></path></svg>
+              Skill Tests
+            </Link>
+            <Link to="/gemini-chat" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Zm0 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm.75 3v2.75H11.5a.75.75 0 0 1 0 1.5H8.75V11.5a.75.75 0 0 1-1.5 0V8.75H4.5a.75.75 0 0 1 0-1.5h2.75V4.5a.75.75 0 0 1 1.5 0Z"></path></svg>
+              AI Assistant
+            </Link>
             <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
               Profile

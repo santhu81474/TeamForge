@@ -1,30 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 /* === Premium Hacker UI Utilities === */
 .glass-panel {
-  background: rgba(22, 27, 34, 0.55);
-  backdrop-filter: blur(14px) saturate(120%);
-  -webkit-backdrop-filter: blur(14px) saturate(120%);
-  border-radius: 18px;
-  border: 1.5px solid rgba(46, 204, 113, 0.13);
-  box-shadow: 0 8px 32px 0 rgba(46, 204, 113, 0.08);
-  transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1);
+  background: rgba(13, 17, 23, 0.4);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-radius: 16px;
+  border: 1px solid rgba(46, 204, 113, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(46, 204, 113, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.5), transparent);
+  opacity: 0.5;
 }
 
 .neon-border-dynamic {
-  border: 2px solid var(--neon-green);
-  box-shadow: 0 0 16px 2px var(--neon-green), 0 0 32px 4px rgba(46,204,113,0.15);
-  animation: neonPulse 2.2s infinite alternate;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+.neon-border-dynamic::after {
+  content: '';
+  position: absolute;
+  top: -1px; right: -1px; bottom: -1px; left: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(45deg, var(--neon-green), transparent, var(--neon-green));
+  animation: borderRotate 4s linear infinite;
+  opacity: 0.5;
 }
 
-@keyframes neonPulse {
-  0% { box-shadow: 0 0 8px 1px var(--neon-green), 0 0 16px 2px rgba(46,204,113,0.10); }
-  100% { box-shadow: 0 0 24px 4px var(--neon-green), 0 0 48px 8px rgba(46,204,113,0.22); }
+@keyframes borderRotate {
+  0% { transform: rotate(0deg); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: rotate(360deg); opacity: 0; }
 }
 
 .scan-line {
   position: relative;
-  overflow: hidden;
 }
 .scan-line::after {
   content: '';
@@ -32,35 +51,39 @@
   position: absolute;
   left: 0; right: 0;
   top: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #2ecc71 60%, transparent);
-  opacity: 0.7;
-  animation: scanMove 2.5s linear infinite;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(46, 204, 113, 0.1) 50%, transparent);
+  opacity: 0.4;
+  pointer-events: none;
+  animation: scanMove 4s linear infinite;
 }
 @keyframes scanMove {
-  0% { top: 0; }
-  100% { top: 100%; }
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
 }
+
 :root {
-  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-main: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
   
-  --bg-color: #0d1117;
-  --bg-card: rgba(22, 27, 34, 0.65);
-  --bg-card-hover: #1c2128;
+  --bg-color: #06090e; /* Even darker, deeper space background */
+  --bg-card: rgba(13, 17, 23, 0.5);
+  --bg-card-hover: rgba(22, 27, 34, 0.7);
   
   --primary: #238636;
   --primary-hover: #2ea043;
-  --primary-glow: rgba(46, 160, 67, 0.4);
+  --primary-glow: rgba(46, 204, 113, 0.4);
   
   --neon-green: #2ecc71;
-  --neon-glow: 0 0 12px rgba(46, 160, 67, 0.5);
+  --neon-glow: 0 0 16px rgba(46, 204, 113, 0.4);
   
-  --border-color: #30363d;
-  --text-main: #c9d1d9;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-main: #e6edf3;
   --text-muted: #8b949e;
   --link-color: #58a6ff;
-  --link-glow: rgba(88, 166, 255, 0.3);
+  --link-glow: rgba(88, 166, 255, 0.4);
 }
 
 /* --- Hacker Aesthetic Utilities --- */
@@ -137,9 +160,27 @@ body {
   line-height: 1.6;
   font-size: 15px;
   background-image: 
-    radial-gradient(circle at top left, rgba(88, 166, 255, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at bottom right, rgba(35, 134, 54, 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 15% 50%, rgba(46, 204, 113, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(88, 166, 255, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(46, 204, 113, 0.08) 0%, transparent 50%);
   background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Base custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(46, 204, 113, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(46, 204, 113, 0.6);
 }
 
 a {
