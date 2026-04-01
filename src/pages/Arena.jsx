@@ -57,7 +57,19 @@ const Arena = () => {
     
     try {
       const promptData = {
-        prompt: `Challenge: ${challenge.title}\nDescription: ${challenge.problemStatement}\n\nDeveloper Question: ${inputMsg}\n\nIMPORTANT: If you provide code, wrap it in TRIPLE BACKTICKS. I will provide a button for the user to sync your code.`
+        prompt: `You are an AI coding assistant in a hacker-themed coding arena.
+
+Current Challenge context:
+Title: ${challenge.title}
+Problem: ${challenge.problemStatement}
+
+INSTRUCTIONS FOR YOU:
+- Act as a chatbot. If the user greets you (e.g., "hi", "hello"), greet back and ask how you can help with the challenge.
+- DO NOT provide code unless the user explicitly asks for code, hints, or a solution. 
+- If the user asks for an explanation, explain the concepts without giving the full code solution unless asked.
+- IMPORTANT: When you DO provide code, ALWAYS wrap it in TRIPLE BACKTICKS (\`\`\`). I will provide a button for the user to sync your code.
+
+User Message: ${inputMsg}`
       };
       const res = await api.post('/gemini/chat', promptData);
       setChatMessages(prev => [...prev, { sender: 'AI', text: res.data.response }]);
