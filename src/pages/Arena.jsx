@@ -12,6 +12,7 @@ const Arena = () => {
 
   // AI Assistant State
   const [showAssistant, setShowAssistant] = useState(true); // Default to true for premium feel
+  const [aiMode, setAiMode] = useState('mentor'); // Modes: mentor, generator, debugger, interviewer, comedian
   const [chatMessages, setChatMessages] = useState([
     { sender: 'AI', text: 'Tactical Assistant active. How can I help with this algorithm?' }
   ]);
@@ -56,20 +57,32 @@ const Arena = () => {
     setChatInput('');
     
     try {
+      const modeInstructions = {
+        mentor: "Act as a helpful Mentor. Focus on explaining concepts clearly and provide hints rather than immediate full code solutions unless explicitly requested.",
+        generator: "Act as a pure Code Generator. Provide the exact code requested immediately with minimal explanation. Optimize for speed and directness.",
+        debugger: "Act as a strict Code Debugger. Focus entirely on finding edge cases, potential bugs, time/space complexity flaws, and security vulnerabilities in the user's code.",
+        interviewer: "Act as a FAANG Technical Interviewer. Ask follow-up questions about algorithmic complexity, alternative approaches, and trade-ops instead of just giving away the answer directly.",
+        comedian: "Act as a cynical but helpful Hacker Comedian. Use sarcasm, software engineering tropes, and memes in your responses. Make it extremely dramatic like an 80s movie hacker."
+      };
+
       const promptData = {
-        prompt: `You are an AI coding assistant in a hacker-themed coding arena.
+        prompt: `You are an AI assistant in a hacker-themed coding arena.
 
 Current Challenge context:
 Title: ${challenge.title}
 Problem: ${challenge.problemStatement}
 
 INSTRUCTIONS FOR YOU:
-- Act as a chatbot. If the user greets you (e.g., "hi", "hello"), greet back and ask how you can help with the challenge.
-- DO NOT provide code unless the user explicitly asks for code, hints, or a solution. 
-- If the user asks for an explanation, explain the concepts without giving the full code solution unless asked.
-- IMPORTANT: When you DO provide code, ALWAYS wrap it in TRIPLE BACKTICKS (\`\`\`). I will provide a button for the user to sync your code.
+- MODE: ${modeInstructions[aiMode]}
+- Act as a chatbot. If the user greets you, greet back warmly and offer assistance.
+- If the user asks for code, even if it is unrelated to the current challenge (e.g., "simple sum of numbers code"), provide the code they asked for.
+- If the user asks for an explanation, explain the concepts clearly along with the code.
+- IMPORTANT: When you DO provide code, ALWAYS wrap it in TRIPLE BACKTICKS (\`\`\`).
 
-User Message: ${inputMsg}`
+Chat History:
+${chatMessages.map(m => `${m.sender}: ${m.text}`).join('\n')}
+YOU: ${inputMsg}
+AI:`
       };
       const res = await api.post('/gemini/chat', promptData);
       setChatMessages(prev => [...prev, { sender: 'AI', text: res.data.response }]);
@@ -267,8 +280,37 @@ User Message: ${inputMsg}`
               <div className="mono" style={{ fontSize: 12, color: 'var(--neon-green)', fontWeight: 800 }}>[TACTICAL_AI]</div>
               <div className="mono" style={{ fontSize: 9, color: 'var(--text-muted)' }}>M_MODEL: GEMINI_PRO</div>
             </div>
-            
-            <div style={{ 
+
+            {/* Mode Selector */}
+            <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(13, 17, 23, 0.6)' }}>
+              <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: '10px' }}>AI_PROTOCOL_OVERRIDE:</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {[
+                  { id: 'mentor', label: 'Mentor', desc: 'Focus on concepts & hints' },
+                  { id: 'generator', label: 'Generator', desc: 'Direct code output' },
+                  { id: 'debugger', label: 'Debugger', desc: 'Find bugs & edge cases' },
+                  { id: 'interviewer', label: 'Interviewer', desc: 'Ask complexity queries' },
+                  { id: 'comedian', label: 'Cynic Hacker', desc: 'Sarcastic & dramatic' }
+                ].map(mode => (
+                  <label key={mode.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                    <input 
+                      type="radio" 
+                      name="aiMode" 
+                      value={mode.id} 
+                      checked={aiMode === mode.id} 
+                      onChange={(e) => setAiMode(e.target.value)} 
+                      style={{ accentColor: 'var(--neon-green)', width: '14px', height: '14px' }}
+                    />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span className="mono" style={{ fontSize: 11, color: aiMode === mode.id ? 'var(--neon-green)' : 'var(--text-main)' }}>{mode.label.toUpperCase()}</span>
+                      <span className="mono" style={{ fontSize: 9, color: 'var(--text-muted)' }}>{mode.desc}</span>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div style={{
               flex: 1, 
               padding: '20px', 
               overflowY: 'auto', 
