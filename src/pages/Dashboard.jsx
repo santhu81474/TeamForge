@@ -156,18 +156,17 @@ const Dashboard = () => {
         {/* Project Grid */}
         <div className="grid grid-cols-2" style={{ gap: '20px' }}>
           {filteredProjects.length === 0 ? (
-            <div className="glass-panel" style={{ gridColumn: 'span 2', textAlign: 'center', padding: '80px 40px', borderStyle: 'dashed' }}>
-              <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={{ margin: '0 auto 20px', opacity: 0.6 }}>
-                <ellipse cx="50" cy="50" rx="40" ry="20" stroke="var(--neon-green)" strokeWidth="1" strokeDasharray="4 4" />
-                <path d="M30 50H70" stroke="var(--neon-green)" strokeWidth="1" />
-                <path d="M50 30V70" stroke="var(--neon-green)" strokeWidth="1" />
-                <circle cx="50" cy="50" r="4" fill="var(--neon-green)" className="pulse" />
+            <div className="empty-state" style={{ gridColumn: 'span 2' }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
-              <h2 className="mono" style={{ color: 'var(--neon-green)', fontSize: '20px', marginBottom: '8px' }}>ZERO_SIGNALS_DETECTED</h2>
-              <p className="text-muted" style={{ maxWidth: '400px', margin: '0 auto 24px' }}>
-                The neural network found no active projects matching your current search parameters. Clear the cache or create a new node.
+              <h2 className="empty-state-title">No projects found</h2>
+              <p className="empty-state-desc">
+                We couldn't find any projects matching your search. Try adjusting your filters or create a new project.
               </p>
-              <Link to="/create" className="btn btn-primary neon-hover">DEPLOY_NEW_PROJECT</Link>
+              <Link to="/projects/create" className="btn btn-primary">Create Project</Link>
             </div>
           ) : (
             filteredProjects.map(project => {

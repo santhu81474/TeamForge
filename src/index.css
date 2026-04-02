@@ -1,6 +1,236 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
-/* === Premium Professional UI Utilities === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-main: #000000;
+  --bg-secondary: #0A0A0A;
+  --bg-card: #111111;
+  --bg-hover: #1A1A1A;
+  
+  --border-color: #222222;
+  --border-hover: #333333;
+  
+  --text-main: #EDEDED;
+  --text-muted: #888888;
+  
+  --accent-primary: #EDEDED;
+  --accent-primary-text: #000000;
+  --accent-secondary: #222222;
+  
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.page-title {
+  font-size: 1.5rem; /* 24px */
+  color: var(--text-main);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  color: var(--text-muted);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+/* Modals / Cards (Linear style) */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Navbar specific - SaaS minimalist */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a, .dropdown-trigger {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition: color 0.15s ease, background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.nav-links a:hover, .dropdown-trigger:hover {
+  color: var(--text-main);
+  background: var(--bg-hover);
+}
+
+/* Dropdown specific logic to FIX HOVER FLICKER */
+.dropdown-group {
+  position: relative;
+  display: inline-block;
+}
+
+/* The transparent padding bridge ensures the mouse can move to the menu without leaving the element */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 8px; /* Invisible bridge */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 1000;
+}
+
+/* Keeps the menu open as long as you hover the group OR the menu itself */
+.dropdown-group:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Actual content of the menu */
+.dropdown-content {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  box-shadow: var(--shadow-sm);
+}
+
+.dropdown-content a {
+  padding: 8px 12px;
+  justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-text);
+  border: 1px solid var(--accent-primary);
+}
+
+.btn-primary:hover {
+  background-color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-hover);
+}
+
+/* Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  text-align: center;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  margin-top: 32px;
+}
+
+.empty-state svg {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.empty-state-title {
+  font-size: 1rem;
+  color: var(--text-main);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-state-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  max-width: 400px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
 .glass-panel {
   background: var(--bg-card);
   border-radius: 8px;
