@@ -27,24 +27,10 @@ const Navbar = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <Link to="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {/* Custom TeamForge mark (no GitHub logo) */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="4" width="9" height="16" rx="2" fill="url(#tf-left)"/>
-            <rect x="13" y="4" width="9" height="9" rx="2" fill="url(#tf-top)"/>
-            <rect x="13" y="15" width="9" height="5" rx="2" fill="url(#tf-bottom)"/>
-            <defs>
-              <linearGradient id="tf-left" x1="2" y1="4" x2="11" y2="20" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#58A6FF"/>
-                <stop offset="1" stopColor="#1F6FEB"/>
-              </linearGradient>
-              <linearGradient id="tf-top" x1="13" y1="4" x2="22" y2="13" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#3FB950"/>
-                <stop offset="1" stopColor="#1A7F37"/>
-              </linearGradient>
-              <linearGradient id="tf-bottom" x1="13" y1="15" x2="22" y2="20" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F2CC60"/>
-                <stop offset="1" stopColor="#DB6D28"/>
-              </linearGradient>
-            </defs>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
           </svg>
           TeamForge
         </Link>
@@ -59,24 +45,21 @@ const Navbar = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{
-                backgroundColor: 'rgba(13, 17, 23, 1)',
+                backgroundColor: 'var(--bg-color)',
                 border: '1px solid var(--border-color)',
                 borderRadius: '6px',
-                padding: '5px 12px 5px 32px',
+                padding: '4px 12px 4px 32px',
                 color: 'var(--header-text)',
                 outline: 'none',
-                width: '260px',
-                fontSize: '14px',
-                lineHeight: '20px',
-                transition: 'width 0.2s ease, border-color 0.2s',
+                width: '240px',
+                fontSize: '13px',
+                transition: 'border-color 0.2s',
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = 'var(--link-color)';
-                e.target.style.width = '320px';
+                e.target.style.borderColor = 'var(--text-muted)';
               }}
               onBlur={(e) => {
                 e.target.style.borderColor = 'var(--border-color)';
-                if(!search.trim()) e.target.style.width = '260px';
               }}
             />
           </form>
