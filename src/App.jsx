@@ -21,6 +21,8 @@ import Arena from './pages/Arena';
 import TerminalChat from './pages/TerminalChat';
 import Forge from './pages/Forge';
 import GeminiChat from './pages/GeminiChat';
+import Bounties from './pages/Bounties';
+import Network from './pages/Network';
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
               <Route path="/projects/:id/chat" element={<ProtectedRoute><TerminalChat /></ProtectedRoute>} />
               <Route path="/forge" element={<ProtectedRoute><Forge /></ProtectedRoute>} />
               <Route path="/gemini-chat" element={<ProtectedRoute><GeminiChat /></ProtectedRoute>} />
+              <Route path="/bounties" element={<ProtectedRoute><Bounties /></ProtectedRoute>} />
+              <Route path="/network" element={<ProtectedRoute><Network /></ProtectedRoute>} />
               
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/dashboard" replace />} />

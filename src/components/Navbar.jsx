@@ -120,6 +120,14 @@ const Navbar = () => {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Zm0 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm.75 3v2.75H11.5a.75.75 0 0 1 0 1.5H8.75V11.5a.75.75 0 0 1-1.5 0V8.75H4.5a.75.75 0 0 1 0-1.5h2.75V4.5a.75.75 0 0 1 1.5 0Z"></path></svg>
               AI Assistant
             </Link>
+            <Link to="/bounties" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M10.5 1.5H5.5a.75.75 0 0 0-.75.75v1.5h6.5v-1.5a.75.75 0 0 0-.75-.75Zm-2 1a.25.25 0 0 1 .25.25v.75h-1.5v-.75a.25.25 0 0 1 .25-.25h1ZM1.5 6C1.5 4.895 2.395 4 3.5 4h9c1.105 0 2 .895 2 2v6.5a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V6Zm11.5 0a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6Z"></path></svg>
+              Bounty Board
+            </Link>
+            <Link to="/network" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 3.5a2 2 0 1 0-4 0 2 2 0 0 0 4 0Zm8.5 0a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10.5 12.5a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM7.334 5.378a3.5 3.5 0 0 1 1.332 0A13.882 13.882 0 0 1 12.87 8a13.882 13.882 0 0 1-4.204 2.622 3.5 3.5 0 0 1-1.332 0 13.882 13.882 0 0 1-4.204-2.622 13.882 13.882 0 0 1 4.204-2.622ZM3.7 8c.706-1.127 1.83-2.02 3.125-2.529a2.003 2.003 0 0 0 2.35 0c1.295.508 2.419 1.402 3.125 2.529-1.341 2.143-3.69 3.5-6.3 3.5S1.041 10.143 3.7 8Z"></path></svg>
+              Network
+            </Link>
             <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
               Profile
