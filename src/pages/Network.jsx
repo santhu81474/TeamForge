@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 const Network = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   const [talents] = useState([
     { id: 1, name: 'Alice Hacker', role: 'Full Stack Engineer', status: 'Online', skills: ['React', 'Node.js', 'MongoDB'], xp: 12450 },
     { id: 2, name: 'Bob Cybersecurity', role: 'Security Analyst', status: 'In a Project', skills: ['Python', 'PenTesting', 'Linux'], xp: 8300 },
     { id: 3, name: 'Charlie Frontend', role: 'UI/UX Designer', status: 'Looking for Team', skills: ['Figma', 'CSS', 'React'], xp: 5420 },
     { id: 4, name: 'Dave Devops', role: 'DevOps Engineer', status: 'Offline', skills: ['Docker', 'AWS', 'Kubernetes'], xp: 11000 },
   ]);
+
+  const filteredTalents = useMemo(() => {
+    return talents.filter(talent => 
+      talent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      talent.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      talent.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [talents, searchQuery]);
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
@@ -20,10 +29,31 @@ const Network = () => {
         <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginTop: '8px', lineHeight: '1.5' }}>
           Discover top engineering talent for your next project. Filter by skills, availability, and experience to build the perfect team.
         </p>
+
+        <div style={{ marginTop: '20px' }}>
+          <input
+            type="text"
+            placeholder="Search by name, role, or skill..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              border: '1px solid var(--border-color)',
+              backgroundColor: '#0d1117',
+              color: '#c9d1d9',
+              fontSize: '15px',
+              outline: 'none',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
       </header>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-        {talents.map(profile => (
+        {filteredTalents.length > 0 ? (
+          filteredTalents.map(profile => (
           <div key={profile.id} className="card" style={{ 
             backgroundColor: '#161b22',
             border: '1px solid var(--border-color)',
