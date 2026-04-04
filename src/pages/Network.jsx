@@ -111,7 +111,12 @@ const Network = () => {
               </button>
             </div>
           </div>
-        ))}
+        ))
+        ) : (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+            No talents found matching your search criteria.
+          </div>
+        )}
       </div>
     </div>
   );
