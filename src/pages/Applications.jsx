@@ -34,11 +34,11 @@ const Applications = () => {
             <path d="M2 12L12 17L22 12" stroke="var(--border-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M12 12V22" stroke="var(--border-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="4 4"/>
           </svg>
-          <h2 className="mono" style={{ color: 'var(--neon-green)', marginTop: '20px' }}>NO_SIGNALS_DETECTED</h2>
+          <h2 className="mono" style={{ color: 'var(--neon-green)', marginTop: '20px' }}>No Signals Detected</h2>
           <p className="text-muted" style={{ maxWidth: '300px', margin: '12px auto 24px' }}>
             You haven't initiated any join requests. The arena is waiting for your deployment.
           </p>
-          <Link to="/explore" className="btn btn-primary neon-hover">SCAN_FOR_PROJECTS</Link>
+          <Link to="/explore" className="btn btn-primary neon-hover">Scan for Projects</Link>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

@@ -148,7 +148,7 @@ const Profile = () => {
             <input type="url" placeholder="GitHub URL" value={githubEdit} onChange={(e) => setGithubEdit(e.target.value)} className="form-input mono" style={{ fontSize: 11, padding: '8px 12px' }} />
             <input type="url" placeholder="LinkedIn URL" value={linkedinEdit} onChange={(e) => setLinkedinEdit(e.target.value)} className="form-input mono" style={{ fontSize: 11, padding: '8px 12px' }} />
             <button onClick={handleSaveSocial} className="btn btn-outline mono" style={{ fontSize: 11, padding: '8px', width: '100%' }}>
-              {savingSocial ? 'SYNCING...' : 'UPDATE_SOCIAL_NODES'}
+              {savingSocial ? 'SYNCING...' : 'Update Social Nodes'}
             </button>
           </div>
         </section>
@@ -156,7 +156,7 @@ const Profile = () => {
         {/* Tactical Stats */}
         <section className="glass-panel" style={{ padding: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <span className="mono" style={{ fontSize: 12, color: 'var(--text-muted)' }}>SYNC_STABILITY</span>
+            <span className="mono" style={{ fontSize: 12, color: 'var(--text-muted)' }}>Sync Stability</span>
             <span className="mono" style={{ color: '#F59E0B', fontWeight: 800 }}>★ {user?.rating || 0}</span>
           </div>
           <SkillBadges skills={user?.skills || []} rating={user?.rating || 0} />
@@ -176,7 +176,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <Link to="/skill-test" className="btn btn-primary mono" style={{ width: '100%', marginTop: 24, fontSize: 12 }}>RUN_SKILL_VALIDATION</Link>
+          <Link to="/skill-test" className="btn btn-primary mono" style={{ width: '100%', marginTop: 24, fontSize: 12 }}>Run Skill Validation</Link>
         </section>
       </aside>
 
@@ -188,7 +188,7 @@ const Profile = () => {
           
           {/* Skill Matrix Node */}
           <section className="glass-panel" style={{ padding: '24px' }}>
-            <div className="mono" style={{ fontSize: 13, color: 'var(--neon-green)', marginBottom: 20, letterSpacing: 2 }}>[NEURAL_SKILL_MATRIX]</div>
+            <div className="mono" style={{ fontSize: 13, color: 'var(--neon-green)', marginBottom: 20, letterSpacing: 2 }}>Neural Skill Matrix</div>
             <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
               <div style={{ flex: 1, minWidth: 200 }}>
                 <Chart
@@ -220,7 +220,7 @@ const Profile = () => {
 
           {/* Proof-of-Work Grid */}
           <section className="glass-panel" style={{ padding: '24px' }}>
-            <div className="mono" style={{ fontSize: 13, color: 'var(--link-color)', marginBottom: 20, letterSpacing: 2 }}>[PROOF_OF_WORK]</div>
+            <div className="mono" style={{ fontSize: 13, color: 'var(--link-color)', marginBottom: 20, letterSpacing: 2 }}>Proof of Work</div>
             <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', maxWidth: '240px', margin: '0 auto' }}>
               {Array.from({ length: 48 }).map((_, i) => (
                 <div key={i} style={{ 
@@ -233,7 +233,7 @@ const Profile = () => {
               ))}
             </div>
             <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 24, textAlign: 'center' }}>
-              LOG_SEQUENCE: ATTACHED_ACTIVE
+              Log Sequence: Attached Active
             </div>
           </section>
         </div>
@@ -269,7 +269,7 @@ const Profile = () => {
                 {profileDetails.completedProjects.map(proj => (
                   <div key={proj.id} className="card neon-hover" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px' }}>
                     <div className="mono" style={{ color: 'var(--text-main)', fontSize: 14 }}>{proj.title}</div>
-                    <Link to={`/projects/${proj.id}/review`} className="mono" style={{ fontSize: 11, color: 'var(--link-color)' }}>[VIEW_VERIFICATION]</Link>
+                    <Link to={`/projects/${proj.id}/review`} className="mono" style={{ fontSize: 11, color: 'var(--link-color)' }}>View Verification</Link>
                   </div>
                 ))}
               </div>
@@ -277,11 +277,11 @@ const Profile = () => {
             {activeTab === TAB_MY && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {ownedProjects.length === 0 ? (
-                  <div className="mono" style={{ color: 'var(--text-muted)', fontSize: 12, textAlign: 'center', padding: '40px' }}>NO_LOCAL_ASSETS_FOUND</div>
+                  <div className="mono" style={{ color: 'var(--text-muted)', fontSize: 12, textAlign: 'center', padding: '40px' }}>No Local Assets Found</div>
                 ) : ownedProjects.map(p => (
                   <div key={p._id} className="card neon-hover" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px' }}>
                     <div className="mono" style={{ color: 'var(--neon-green)', fontSize: 14 }}>{p.title}</div>
-                    <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>{p.applicants?.length || 0} PEERS_LINKED</div>
+                    <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>{p.applicants?.length || 0} Peers Linked</div>
                   </div>
                 ))}
               </div>
@@ -289,7 +289,7 @@ const Profile = () => {
             {activeTab === TAB_APPS && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {applications.length === 0 ? (
-                  <div className="mono" style={{ color: 'var(--text-muted)', fontSize: 12, textAlign: 'center', padding: '40px' }}>ZERO_ACTIVE_DEPLOYMENTS</div>
+                  <div className="mono" style={{ color: 'var(--text-muted)', fontSize: 12, textAlign: 'center', padding: '40px' }}>Zero Active Deployments</div>
                 ) : applications.map(app => (
                   <div key={app._id} className="card neon-hover" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px' }}>
                     <div className="mono" style={{ color: 'var(--text-main)', fontSize: 14 }}>{app.projectTitle || 'Project_Node'}</div>
@@ -303,11 +303,11 @@ const Profile = () => {
 
         {/* Activity Insights Footer */}
         <section className="glass-panel" style={{ padding: '24px' }}>
-          <div className="mono" style={{ fontSize: 13, color: '#F59E0B', marginBottom: 20, letterSpacing: 2 }}>[NETWORK_METRICS]</div>
+          <div className="mono" style={{ fontSize: 13, color: '#F59E0B', marginBottom: 20, letterSpacing: 2 }}>Network Metrics</div>
           {loadingActivity ? (
-            <div className="mono" style={{ fontSize: 12, color: 'var(--text-muted)' }}>SYNCING_DATA...</div>
+            <div className="mono" style={{ fontSize: 12, color: 'var(--text-muted)' }}>Syncing Data...</div>
           ) : activity.length === 0 ? (
-            <div className="mono" style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', padding:20 }}>INSUFFICIENT_HISTORICAL_DATA</div>
+            <div className="mono" style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', padding:20 }}>Insufficient Historical Data</div>
           ) : (
             <div style={{ display: 'flex', gap: '20px' }}>
               {activity.slice(-6).map((a) => {

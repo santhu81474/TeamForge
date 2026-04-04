@@ -88,7 +88,7 @@ AI:`
       setChatMessages(prev => [...prev, { sender: 'AI', text: res.data.response }]);
     } catch (err) {
       console.error('Chat error:', err);
-      setChatMessages(prev => [...prev, { sender: 'AI', text: 'LINK_ERROR: Neural response failed. Check connectivity or API quota.' }]);
+      setChatMessages(prev => [...prev, { sender: 'AI', text: 'Link Error: Neural response failed. Check connectivity or API quota.' }]);
     } finally {
       setChatLoading(false);
     }
@@ -98,15 +98,15 @@ AI:`
     const codeMatch = text.match(/```(?:\w+)?\n([\s\S]*?)```/);
     if (codeMatch && codeMatch[1]) {
       setCode(codeMatch[1].trim());
-      alert('SYNCHRONIZATION_COMPLETE: Code updated in editor.');
+      alert('Synchronization Complete: Code updated in editor.');
     } else {
-      alert('SYNCHRONIZATION_FAILED: No valid code block found in response.');
+      alert('Synchronization Failed: No valid code block found in response.');
     }
   };
 
   const handleSubmit = async () => {
     if (!code || code.trim().length < 10) {
-      alert('CRITICAL_ERROR: Transmission too small. Please implement the algorithm.');
+      alert('Critical Error: Transmission too small. Please implement the algorithm.');
       return;
     }
 
@@ -143,7 +143,7 @@ AI:`
       <div className="mb-6 flex justify-between items-end glass-panel" style={{ padding: '24px 32px', marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <div className="mono" style={{ color: 'var(--neon-green)', fontSize: '12px', letterSpacing: '3px', marginBottom: '12px', textShadow: '0 0 10px rgba(46,204,113,0.5)' }}>
-            [ DAILY_MISSION_LOG // {new Date().toLocaleDateString()} ]
+            Daily Mission Log // {new Date().toLocaleDateString()} ]
           </div>
           <h1 style={{ fontSize: '2.8rem', fontWeight: 800, margin: '0 0 12px 0', letterSpacing: '-1px', color: 'var(--text-main)' }}>{challenge.title}</h1>
           <div className="flex gap-4 mono" style={{ fontSize: '13px', backgroundColor: 'rgba(0,0,0,0.3)', padding: '8px 16px', borderRadius: '8px', display: 'inline-flex' }}>
@@ -159,7 +159,7 @@ AI:`
             className="btn neon-hover mono" 
             style={{ fontSize: 12, padding: '12px 24px', borderColor: 'var(--neon-green)', color: 'var(--neon-green)', background: 'rgba(46, 204, 113, 0.05)', letterSpacing: '1px' }}
           >
-            [ ENABLE_TACTICAL_AI ]
+            Enable Tactical AI
           </button>
         )}
       </div>
@@ -180,7 +180,7 @@ AI:`
             <div style={{ padding: '16px 24px', backgroundColor: 'rgba(0,0,0,0.4)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
               <div className="mono" style={{ fontSize: '12px', color: 'var(--neon-green)', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <div style={{ width: 8, height: 8, backgroundColor: 'var(--neon-green)', borderRadius: '50%', boxShadow: '0 0 8px var(--neon-green)' }} />
-                MISSION_OBJECTIVE
+                Mission Objective
               </div>
             </div>
             <div style={{ padding: '24px', lineHeight: 1.8, fontSize: '16px', color: 'rgba(255,255,255,0.85)', whiteSpace: 'pre-wrap' }}>
@@ -220,7 +220,7 @@ AI:`
               </div>
               <div className="mono" style={{ fontSize: '12px', color: 'var(--neon-green)', display: 'flex', alignItems: 'center', gap: 8, textShadow: '0 0 8px rgba(46,204,113,0.5)' }}>
                 <div className="pulse-dot" style={{ width: 8, height: 8, backgroundColor: 'var(--neon-green)', borderRadius: '50%', boxShadow: '0 0 12px var(--neon-green)' }}></div>
-                UPLINK_STABLE
+                Uplink Stable
               </div>
             </div>
             
@@ -259,7 +259,7 @@ AI:`
                 disabled={submitting}
                 style={{ padding: '14px 48px', letterSpacing: '2px', fontSize: '14px', fontWeight: 'bold' }}
               >
-                {submitting ? 'EXECUTING_PAYLOAD...' : 'TRANSMIT_ALGORITHM'}
+                {submitting ? 'Executing Payload...' : 'Transmit Algorithm'}
               </button>
             </div>
           </div>
@@ -270,9 +270,9 @@ AI:`
               borderLeft: `6px solid ${result.submission.status === 'Accepted' ? 'var(--neon-green)' : '#ff5f56'}`,
               animation: 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
             }}>
-              <div className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px', letterSpacing: '1px' }}>EXECUTION_RESULTS</div>
+              <div className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px', letterSpacing: '1px' }}>Execution Results</div>
               <h3 className="mono" style={{ color: result.submission.status === 'Accepted' ? 'var(--neon-green)' : '#ff5f56', marginBottom: '20px', fontSize: '24px', textShadow: `0 0 15px ${result.submission.status === 'Accepted' ? 'rgba(46,204,113,0.4)' : 'rgba(255,95,86,0.4)'}` }}>
-                {result.submission.status === 'Accepted' ? '[ COMPILATION_SUCCESS ]' : '[ COMPILATION_FAILURE ]'}
+                {result.submission.status === 'Accepted' ? 'Compilation Success' : 'Compilation Failure'}
               </h3>
               <div className="mono" style={{ fontSize: '15px', display: 'grid', gridTemplateColumns: 'minmax(200px, max-content) minmax(200px, max-content)', gap: 24 }}>
                 <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px 20px', borderRadius: '8px' }}>
@@ -281,7 +281,7 @@ AI:`
                 </div>
                 {result.pointsEarned > 0 && (
                   <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px 20px', borderRadius: '8px' }}>
-                    <span style={{ color: 'var(--text-muted)', marginRight: '12px' }}>XP_GAIN:</span>
+                    <span style={{ color: 'var(--text-muted)', marginRight: '12px' }}>XP Gain:</span>
                     <span style={{ color: 'var(--neon-green)', fontWeight: 'bold' }}>+{result.pointsEarned}</span>
                   </div>
                 )}
@@ -314,8 +314,8 @@ AI:`
                   <div style={{ width: 14, height: 14, backgroundColor: 'var(--neon-green)', borderRadius: '2px', animation: 'pulseGlow 2s infinite' }} />
                 </div>
                 <div>
-                  <div className="mono" style={{ fontSize: 14, color: 'var(--neon-green)', fontWeight: 800, letterSpacing: '1px', textShadow: '0 0 8px rgba(46,204,113,0.5)' }}>TACTICAL_API //</div>
-                  <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>MODEL: GEMINI_PRO_V3</div>
+                  <div className="mono" style={{ fontSize: 14, color: 'var(--neon-green)', fontWeight: 800, letterSpacing: '1px', textShadow: '0 0 8px rgba(46,204,113,0.5)' }}>Tactical API //</div>
+                  <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>MODEL: Gemini Pro v3</div>
                 </div>
               </div>
               <button 
@@ -330,7 +330,7 @@ AI:`
 
             {/* Mode Selector */}
             <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(0,0,0,0.2)' }}>
-              <div className="mono" style={{ fontSize: 10, color: 'var(--neon-green)', marginBottom: '16px', letterSpacing: '2px' }}>[ PROTOCOL_OVERRIDE ]</div>
+              <div className="mono" style={{ fontSize: 10, color: 'var(--neon-green)', marginBottom: '16px', letterSpacing: '2px' }}>Protocol Override</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                 {[
                   { id: 'mentor', label: 'MENTOR' },
@@ -405,7 +405,7 @@ AI:`
                         className="btn btn-outline mono neon-hover" 
                         style={{ marginTop: 16, fontSize: 11, padding: '8px 16px', width: '100%', borderColor: 'var(--neon-green)', color: 'var(--neon-green)', background: 'rgba(46,204,113,0.05)', letterSpacing: '1px' }}
                       >
-                        [ INJECT_CODE ]
+                        Inject Code
                       </button>
                     )}
                   </div>
@@ -413,7 +413,7 @@ AI:`
               ))}
               {chatLoading && (
                 <div className="mono" style={{ fontSize: 12, color: 'var(--neon-green)', alignSelf: 'flex-start', animation: 'pulseGlow 1.5s infinite', background: 'rgba(46,204,113,0.05)', padding: '12px 20px', borderRadius: '12px', border: '1px solid rgba(46,204,113,0.2)' }}>
-                  PROCESSING_QUERY...
+                  Processing Query...
                 </div>
               )}
             </div>

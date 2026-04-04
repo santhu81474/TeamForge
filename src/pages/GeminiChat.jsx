@@ -3,7 +3,7 @@ import api from '../services/api';
 
 const GeminiChat = () => {
   const [messages, setMessages] = useState([
-    { sender: 'GEMINI_CORE', text: 'NEURAL_LINK_ESTABLISHED. I am the Gemini Advanced Intelligence Node. Protocol 7/7: Ready for query.' }
+    { sender: 'Gemini Core', text: 'Neural link established. I am the Gemini Advanced Intelligence Node. Protocol 7/7: Ready for query.' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,9 +18,9 @@ const GeminiChat = () => {
     
     try {
       const res = await api.post('/gemini/chat', { prompt: input });
-      setMessages((prev) => [...prev, { sender: 'GEMINI_CORE', text: res.data.response }]);
+      setMessages((prev) => [...prev, { sender: 'Gemini Core', text: res.data.response }]);
     } catch (err) {
-      setMessages((prev) => [...prev, { sender: 'GEMINI_CORE', text: 'SIGNAL_DEGRADATION: Neural response failed. Check connectivity.' }]);
+      setMessages((prev) => [...prev, { sender: 'Gemini Core', text: 'Signal Degradation: Neural response failed. Check connectivity.' }]);
     } finally {
       setLoading(false);
       setInput('');
@@ -30,8 +30,8 @@ const GeminiChat = () => {
   return (
     <div style={{ maxWidth: 900, margin: '40px auto', padding: '0 24px' }}>
       <div className="flex justify-between items-center mb-2">
-        <h1 className="page-title">[GEMINI_CHAT_PORTAL]</h1>
-        <div className="mono badge" style={{ color: 'var(--neon-green)', borderColor: 'var(--neon-green)' }}>ENCRYPTED_LINK: ACTIVE</div>
+        <h1 className="page-title">Gemini Chat Portal</h1>
+        <div className="mono badge" style={{ color: 'var(--neon-green)', borderColor: 'var(--neon-green)' }}>Encrypted Link: ACTIVE</div>
       </div>
 
       <div className="glass-panel scan-line" style={{ 
@@ -56,13 +56,13 @@ const GeminiChat = () => {
               alignSelf: m.sender === 'OPERATOR' ? 'flex-end' : 'flex-start',
               maxWidth: '85%',
               padding: '12px 18px',
-              borderLeft: m.sender === 'GEMINI_CORE' ? '3px solid var(--neon-green)' : '1px solid rgba(88, 166, 255, 0.2)',
+              borderLeft: m.sender === 'Gemini Core' ? '3px solid var(--neon-green)' : '1px solid rgba(88, 166, 255, 0.2)',
               borderRight: m.sender === 'OPERATOR' ? '3px solid var(--link-color)' : '1px solid rgba(255, 255, 255, 0.05)',
               animation: 'fadeIn 0.3s ease-out'
             }}>
               <div className="mono" style={{ 
                 fontSize: 10, 
-                color: m.sender === 'GEMINI_CORE' ? 'var(--neon-green)' : 'var(--link-color)',
+                color: m.sender === 'Gemini Core' ? 'var(--neon-green)' : 'var(--link-color)',
                 marginBottom: 6,
                 letterSpacing: 1
               }}>
@@ -75,7 +75,7 @@ const GeminiChat = () => {
           ))}
           {loading && (
             <div className="mono" style={{ color: 'var(--neon-green)', fontSize: 11, animation: 'pulse 1s infinite' }}>
-              {'>'} DECRYPTING_RESPONSE...
+              {'>'} Decrypting Response...
             </div>
           )}
         </div>
@@ -92,7 +92,7 @@ const GeminiChat = () => {
             type="text"
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="TRANSMIT_COMMAND_TO_GEMINI..."
+            placeholder="Transmit Command to Gemini..."
             className="form-input mono"
             style={{ flex: 1, fontSize: 14, background: 'rgba(0,0,0,0.3)' }}
             disabled={loading}
@@ -109,7 +109,7 @@ const GeminiChat = () => {
       </div>
       
       <div className="mono" style={{ marginTop: 12, fontSize: 10, color: 'var(--text-muted)', textAlign: 'center', opacity: 0.6 }}>
-        SYSTEM_ID: 154-GPT-ALPHA | NEURAL_BACKEND: FLASH-1.5
+        System ID: 154-GPT-ALPHA | Neural Backend: FLASH-1.5
       </div>
     </div>
   );

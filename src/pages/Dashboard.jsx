@@ -148,7 +148,7 @@ const Dashboard = () => {
           <h1 className="page-title" style={{ marginBottom: 0, fontSize: '1.8rem' }}>Project Network</h1>
           {searchQuery && (
             <span className="mono" style={{ color: 'var(--link-color)', fontSize: '13px', backgroundColor: 'rgba(88, 166, 255, 0.08)', padding: '6px 14px', borderRadius: '4px', border: '1px solid rgba(88, 166, 255, 0.2)' }}>
-              QUERY_ACTIVE: "{searchQuery}"
+              Query Active: "{searchQuery}"
             </span>
           )}
         </div>
@@ -182,7 +182,7 @@ const Dashboard = () => {
                     </div>
                     
                     <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px' }}>
-                      NODE_OWNER: <span style={{ color: 'var(--link-color)' }}>{project.ownerId?.name || 'ANON_USER'}</span>
+                      Node Owner: <span style={{ color: 'var(--link-color)' }}>{project.ownerId?.name || 'Anonymous User'}</span>
                     </p>
                     
                     <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', marginBottom: '20px', lineHeight: '1.6', height: '4.8em', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
@@ -199,14 +199,14 @@ const Dashboard = () => {
 
                   <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      STATUS: {project.applicants?.length || 0} ACTIVE_NODES
+                      STATUS: {project.applicants?.length || 0} Active Nodes
                     </div>
                     <div style={{ display: 'flex', gap: '8px' }}>
                       {(isOwner || hasApplied) && (
-                        <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ fontSize: '11px', padding: '6px 12px' }}>TERMINAL_CHAT</Link>
+                        <Link to={`/projects/${project._id}/chat`} className="btn btn-outline mono" style={{ fontSize: '11px', padding: '6px 12px' }}>Terminal Chat</Link>
                       )}
                       {!isOwner && !hasApplied && (
-                        <button className="btn btn-primary mono" onClick={() => handleApply(project._id)} style={{ fontSize: '11px', padding: '6px 12px' }}>JOIN_REQ</button>
+                        <button className="btn btn-primary mono" onClick={() => handleApply(project._id)} style={{ fontSize: '11px', padding: '6px 12px' }}>Join Request</button>
                       )}
                     </div>
                   </div>
@@ -224,13 +224,13 @@ const Dashboard = () => {
         <div className="glass-panel" style={{ padding: '24px', position: 'relative', overflow: 'hidden' }}>
           <div className="mono" style={{ color: 'var(--neon-green)', fontSize: '14px', marginBottom: '20px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span className="pulse" style={{ width: 8, height: 8, backgroundColor: 'var(--neon-green)', borderRadius: '50%' }} />
-            NETWORK_PULSE
+            Network Pulse
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {activity.map(a => (
               <div key={a.id} style={{ borderLeft: '2px solid rgba(46,204,113,0.2)', paddingLeft: '12px', paddingBottom: '4px' }}>
                 <div className="mono" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', marginBottom: '4px' }}>{a.text}</div>
-                <div className="mono" style={{ fontSize: '10px', color: 'var(--text-muted)' }}>TIMESTAMP_LOG: {a.time}</div>
+                <div className="mono" style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Timestamp Log: {a.time}</div>
               </div>
             ))}
           </div>
@@ -239,12 +239,12 @@ const Dashboard = () => {
 
         {/* System Operations Sidebar */}
         <div className="glass-panel" style={{ padding: '24px' }}>
-          <div className="mono" style={{ color: '#58A6FF', fontSize: '14px', marginBottom: '20px', letterSpacing: '2px' }}>SYS_OPERATIONS</div>
+          <div className="mono" style={{ color: '#58A6FF', fontSize: '14px', marginBottom: '20px', letterSpacing: '2px' }}>System Operations</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <Link to="/create" className="btn btn-primary neon-hover mono" style={{ width: '100%', fontSize: '12px' }}>NEW_PROJECT_DEPL</Link>
-            <Link to="/leaderboard" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>GLOBAL_LEADERBOARD</Link>
-            <Link to="/arena" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>ENTER_ALGO_ARENA</Link>
-            <Link to="/forge" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>ACCESS_SNIPPET_FORGE</Link>
+            <Link to="/create" className="btn btn-primary neon-hover mono" style={{ width: '100%', fontSize: '12px' }}>New Project Deployment</Link>
+            <Link to="/leaderboard" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>Global Leaderboard</Link>
+            <Link to="/arena" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>Enter Algo Arena</Link>
+            <Link to="/forge" className="btn btn-outline mono" style={{ width: '100%', fontSize: '12px' }}>Access Snippet Forge</Link>
           </div>
         </div>
 

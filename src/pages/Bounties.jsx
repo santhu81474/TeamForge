@@ -12,7 +12,7 @@ const Bounties = () => {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 className="page-title" style={{ margin: 0 }}>[BOUNTY_BOARD]</h1>
+          <h1 className="page-title" style={{ margin: 0 }}>Bounty Board</h1>
           <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>Claim open tasks to earn XP and build your reputation across the network.</p>
         </div>
         <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

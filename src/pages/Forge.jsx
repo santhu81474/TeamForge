@@ -65,13 +65,13 @@ const Forge = () => {
       <div className="flex justify-between items-center mb-2">
         <h1 className="page-title">Snippet Forge</h1>
         <button className="btn btn-primary neon-hover" onClick={() => setShowAdd(!showAdd)}>
-          {showAdd ? 'CANCEL_TRANSFER' : 'INIT_FORGE'}
+          {showAdd ? 'Cancel Transfer' : 'Init Forge'}
         </button>
       </div>
 
       {showAdd && (
         <div className="card glass mb-2" style={{ animation: 'fadeIn 0.3s ease' }}>
-          <h2 className="mono mb-1" style={{ fontSize: '1.2rem', color: 'var(--neon-green)' }}>NEW_ARTIFACT.js</h2>
+          <h2 className="mono mb-1" style={{ fontSize: '1.2rem', color: 'var(--neon-green)' }}>New Artifact.js</h2>
           <form onSubmit={handleAdd}>
             <div className="form-group">
               <label className="form-label mono">TITLE</label>
@@ -91,7 +91,7 @@ const Forge = () => {
               />
             </div>
             <div className="form-group">
-              <label className="form-label mono">CODE_BUFFER</label>
+              <label className="form-label mono">Code Buffer</label>
               <textarea 
                 className="form-input mono" 
                 rows="6" 
@@ -102,14 +102,14 @@ const Forge = () => {
               />
             </div>
             <div className="form-group">
-              <label className="form-label mono">TAG_METADATA (comma-separated)</label>
+              <label className="form-label mono">Tag Metadata (comma-separated)</label>
               <input 
                 className="form-input mono" 
                 value={newSnippet.tags} 
                 onChange={e => setNewSnippet({...newSnippet, tags: e.target.value})} 
               />
             </div>
-            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>COMMIT_TO_FORGE</button>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Commit to Forge</button>
           </form>
         </div>
       )}
