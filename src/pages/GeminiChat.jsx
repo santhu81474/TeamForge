@@ -3,7 +3,7 @@ import api from '../services/api';
 
 const GeminiChat = () => {
   const [messages, setMessages] = useState([
-    { sender: 'Gemini Core', text: 'Neural link established. I am the Gemini Advanced Intelligence Node. Protocol 7/7: Ready for query.' }
+    { sender: 'AI Assistant', text: 'Hello! I am the TeamForge AI Assistant. How can I help you today?' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -12,15 +12,15 @@ const GeminiChat = () => {
     e.preventDefault();
     if (!input.trim() || loading) return;
     
-    const userMsg = { sender: 'OPERATOR', text: input };
+    const userMsg = { sender: 'You', text: input };
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
     
     try {
       const res = await api.post('/gemini/chat', { prompt: input });
-      setMessages((prev) => [...prev, { sender: 'Gemini Core', text: res.data.response }]);
+      setMessages((prev) => [...prev, { sender: 'AI Assistant', text: res.data.response }]);
     } catch (err) {
-      setMessages((prev) => [...prev, { sender: 'Gemini Core', text: 'Signal Degradation: Neural response failed. Check connectivity.' }]);
+      setMessages((prev) => [...prev, { sender: 'AI Assistant', text: 'Response failed. Please check your connectivity.' }]);
     } finally {
       setLoading(false);
       setInput('');
@@ -53,16 +53,15 @@ const GeminiChat = () => {
         }}>
           {messages.map((m, i) => (
             <div key={i} className="card glass-panel" style={{ 
-              alignSelf: m.sender === 'OPERATOR' ? 'flex-end' : 'flex-start',
-              maxWidth: '85%',
+              alignSelf: m.sender === 'You' ? 'flex-end' : 'flex-start',              flexShrink: 0,              maxWidth: '85%',
               padding: '12px 18px',
-              borderLeft: m.sender === 'Gemini Core' ? '3px solid var(--neon-green)' : '1px solid rgba(88, 166, 255, 0.2)',
-              borderRight: m.sender === 'OPERATOR' ? '3px solid var(--link-color)' : '1px solid rgba(255, 255, 255, 0.05)',
+              borderLeft: m.sender === 'AI Assistant' ? '3px solid var(--neon-green)' : '1px solid rgba(88, 166, 255, 0.2)',
+              borderRight: m.sender === 'You' ? '3px solid var(--link-color)' : '1px solid rgba(255, 255, 255, 0.05)',
               animation: 'fadeIn 0.3s ease-out'
             }}>
               <div className="mono" style={{ 
                 fontSize: 10, 
-                color: m.sender === 'Gemini Core' ? 'var(--neon-green)' : 'var(--link-color)',
+                color: m.sender === 'AI Assistant' ? 'var(--neon-green)' : 'var(--link-color)',
                 marginBottom: 6,
                 letterSpacing: 1
               }}>
@@ -75,7 +74,7 @@ const GeminiChat = () => {
           ))}
           {loading && (
             <div className="mono" style={{ color: 'var(--neon-green)', fontSize: 11, animation: 'pulse 1s infinite' }}>
-              {'>'} Decrypting Response...
+              {'>'} Generating response...
             </div>
           )}
         </div>
@@ -92,7 +91,7 @@ const GeminiChat = () => {
             type="text"
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Transmit Command to Gemini..."
+            placeholder="Type your question here..."
             className="form-input mono"
             style={{ flex: 1, fontSize: 14, background: 'rgba(0,0,0,0.3)' }}
             disabled={loading}
@@ -109,7 +108,7 @@ const GeminiChat = () => {
       </div>
       
       <div className="mono" style={{ marginTop: 12, fontSize: 10, color: 'var(--text-muted)', textAlign: 'center', opacity: 0.6 }}>
-        System ID: 154-GPT-ALPHA | Neural Backend: FLASH-1.5
+        Powered by Gemini 2.5 Flash
       </div>
     </div>
   );

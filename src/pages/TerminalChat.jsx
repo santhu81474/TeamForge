@@ -51,7 +51,7 @@ const TerminalChat = () => {
       case '/help':
         return 'Available commands: /deploy, /status, /clear, /help';
       case '/deploy':
-        return 'Initiating deployment sequence... [STAGING] SUCCESS.';
+        return 'Initiating deployment sequence... Deployment to Staging successful.';
       case '/status':
         return 'All systems operational. Node health: 98%.';
       case '/clear':
@@ -98,7 +98,7 @@ const TerminalChat = () => {
           display: 'flex',
           justifyContent: 'space-between'
         }}>
-          <span>TERM_SESSION: PROJECT_{projectId?.slice(-6).toUpperCase()}</span>
+          <span>Chat Session: PROJECT_{projectId?.slice(-6).toUpperCase()}</span>
           <span>● ● ●</span>
         </div>
 
@@ -110,7 +110,7 @@ const TerminalChat = () => {
           backgroundColor: '#0d1117' 
         }}>
           <div style={{ color: 'var(--neon-green)', marginBottom: '16px', fontSize: '13px' }}>
-            [SYSTEM] Connection established. Welcome to the secure node. Type /help for commands.
+            [System] Connection established. Welcome to the chat.
           </div>
           {messages.map((m, i) => (
             <div key={i} style={{ marginBottom: '10px', fontSize: '14px', lineHeight: 1.4 }}>

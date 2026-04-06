@@ -62,11 +62,11 @@ const Arena = () => {
         generator: "Act as a pure Code Generator. Provide the exact code requested immediately with minimal explanation. Optimize for speed and directness.",
         debugger: "Act as a strict Code Debugger. Focus entirely on finding edge cases, potential bugs, time/space complexity flaws, and security vulnerabilities in the user's code.",
         interviewer: "Act as a FAANG Technical Interviewer. Ask follow-up questions about algorithmic complexity, alternative approaches, and trade-ops instead of just giving away the answer directly.",
-        comedian: "Act as a cynical but helpful Hacker Comedian. Use sarcasm, software engineering tropes, and memes in your responses. Make it extremely dramatic like an 80s movie hacker."
+        comedian: "Act as a cynical but helpful Hacker Comedian. Use sarcasm, software engineering tropes, and memes in your responses. Make it extremely dramatic like an friendly colleague."
       };
 
       const promptData = {
-        prompt: `You are an AI assistant in a hacker-themed coding arena.
+        prompt: `You are an AI assistant in a coding challenge arena.
 
 Current Challenge context:
 Title: ${challenge.title}
@@ -143,7 +143,7 @@ AI:`
       <div className="mb-6 flex justify-between items-end glass-panel" style={{ padding: '24px 32px', marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <div className="mono" style={{ color: 'var(--neon-green)', fontSize: '12px', letterSpacing: '3px', marginBottom: '12px', textShadow: '0 0 10px rgba(46,204,113,0.5)' }}>
-            Daily Mission Log // {new Date().toLocaleDateString()} ]
+            Daily Challenge Log — {new Date().toLocaleDateString()} ]
           </div>
           <h1 style={{ fontSize: '2.8rem', fontWeight: 800, margin: '0 0 12px 0', letterSpacing: '-1px', color: 'var(--text-main)' }}>{challenge.title}</h1>
           <div className="flex gap-4 mono" style={{ fontSize: '13px', backgroundColor: 'rgba(0,0,0,0.3)', padding: '8px 16px', borderRadius: '8px', display: 'inline-flex' }}>
@@ -159,7 +159,7 @@ AI:`
             className="btn neon-hover mono" 
             style={{ fontSize: 12, padding: '12px 24px', borderColor: 'var(--neon-green)', color: 'var(--neon-green)', background: 'rgba(46, 204, 113, 0.05)', letterSpacing: '1px' }}
           >
-            Enable Tactical AI
+            Enable AI Assistant
           </button>
         )}
       </div>
@@ -314,7 +314,7 @@ AI:`
                   <div style={{ width: 14, height: 14, backgroundColor: 'var(--neon-green)', borderRadius: '2px', animation: 'pulseGlow 2s infinite' }} />
                 </div>
                 <div>
-                  <div className="mono" style={{ fontSize: 14, color: 'var(--neon-green)', fontWeight: 800, letterSpacing: '1px', textShadow: '0 0 8px rgba(46,204,113,0.5)' }}>Tactical API //</div>
+                  <div className="mono" style={{ fontSize: 14, color: 'var(--neon-green)', fontWeight: 800, letterSpacing: '1px', textShadow: '0 0 8px rgba(46,204,113,0.5)' }}>AI Assistant //</div>
                   <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>MODEL: Gemini Pro v3</div>
                 </div>
               </div>
@@ -330,7 +330,7 @@ AI:`
 
             {/* Mode Selector */}
             <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(0,0,0,0.2)' }}>
-              <div className="mono" style={{ fontSize: 10, color: 'var(--neon-green)', marginBottom: '16px', letterSpacing: '2px' }}>Protocol Override</div>
+              <div className="mono" style={{ fontSize: 10, color: 'var(--neon-green)', marginBottom: '16px', letterSpacing: '2px' }}>AI Suggestion</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                 {[
                   { id: 'mentor', label: 'MENTOR' },
@@ -377,6 +377,7 @@ AI:`
               {chatMessages.map((m, i) => (
                 <div key={i} style={{ 
                   alignSelf: m.sender === 'YOU' ? 'flex-end' : 'flex-start',
+flexShrink: 0,
                   maxWidth: '85%',
                   animation: 'fadeIn 0.3s ease-out'
                 }}>
