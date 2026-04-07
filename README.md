@@ -1,16 +1,37 @@
-# React + Vite
+# TeamForge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TeamForge is a collaborative platform designed for developers to connect, build projects, tackle challenges, and showcase their skills. 
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Project Collaboration:** Create, explore, and apply to collaborative projects.
+- **Skill Arena:** Participate in coding challenges, skill tests, and bounties.
+- **Developer Network:** Track leaderboards, review peers, and grow your professional connections.
+- **AI Integration:** Built-in AI assistants (Gemini Chat & Terminal Chat) to boost productivity.
+- **Secure Authentication:** Full user authentication and profile management securely built.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React, Vite, Tailwind CSS
+- **Backend:** Node.js, Express, MongoDB (Mongoose)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Node.js installed on your machine
+- MongoDB instance (local or Atlas)
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies for the frontend:
+   ```bash
+   npm install
+   ```
+3. Install dependencies for the backend:
+   ```bash
+   cd backend
+   npm install
+   ```
+4. Set up your `.env` files for both frontend and backend as needed.
+5. Start the development servers.
