@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
+// Network component allows users to browse and search for talents
 const Network = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [talents] = useState([
